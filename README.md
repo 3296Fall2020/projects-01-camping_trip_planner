@@ -33,6 +33,19 @@ new software technology, Julia wondered if there was an app that could help prev
 this in the future. Luckily, she stumbled across the Camping Trip Planner app. Since then,
 every trip goes off without a hitch._
 
+#### Juan, a father
+
+_Juan is a parent of two. His family always looks forward to going on a yearly summer 
+canoe trips with the Smith’s. Juan is a doctor and pretty inexperienced when it comes 
+to new technology. However he loves learning new things. He hears about Camping Trip 
+Planner and excitedly calls Mr. Smith. They are easily able to set up profiles and 
+create a trip._
+
+_Now they are easily able to organize and plan the trip. They are also able to get 
+their children (Smith, John, Smitty, and Johnny) involved and begin to teach them 
+everything that goes into organizing such a trip. They have a great time and plan 
+on using Camping Trip Planner for planning their trip next year._
+
 ### Project Board
 
 _https://trello.com/b/uclUHtIM/camping-trip-planner_
