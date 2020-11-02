@@ -28,7 +28,7 @@ Julia relies heavily on weekly social distanced outings with her friends to
 maintain her sanity. On a recent trip to the Poconos for some camping, her group
 realized they forgot to bring anything substantial for dinner. Being out in the middle of
 nowhere they had to drive 50 minutes to a supermarket to remedy the situation, cutting heavily
-into there time with each other and nature. Being a person that is highly involved in the world of
+into their time with each other and nature. Being a person that is highly involved in the world of
 new software technology, Julia wondered if there was an app that could help prevent an incident like
 this in the future. Luckily, she stumbled across the Camping Trip Planner app. Since then,
 every trip goes off without a hitch._
