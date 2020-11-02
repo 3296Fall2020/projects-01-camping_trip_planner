@@ -46,6 +46,12 @@ their children (Smith, John, Smitty, and Johnny) involved and begin to teach the
 everything that goes into organizing such a trip. They have a great time and plan 
 on using Camping Trip Planner for planning their trip next year._
 
+#### Tracy, a middle school teacher
+
+_Tracy, a middle school English teacher, is getting ready to take her class on a camping trip. Every year, the 8th-grade class takes a 3-day trip to the local campground as a celebration for graduating from middle school. This is Tracys first year taking her class, and she is worried about helping her students plan for the trip._
+
+_With the Camping Trip Planner, she can sign all her students up into a single trip list to make sure enough supplies are brought, without over packing the busses. Rather than speaking to each student individually in the hopes they remember to bring what they are asked to bring, she makes a list of all the necessities, and has the student assign themselves to certain items. This way, Tracy can keep track of what has been tracked, and what is still missing._
+
 ### Project Board
 
 _https://trello.com/b/uclUHtIM/camping-trip-planner_
