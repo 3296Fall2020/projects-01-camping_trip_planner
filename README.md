@@ -62,7 +62,7 @@ _So, to deal with this he asks the parents of the kids in his troop for ideas an
 Tyler, looked into it and found that Camping Trip Planner not only lets him create a list for his trip, but also allows him to 
 add people to share the list with so that they could also collaborate and use it as a checklist. Tyler had found his solution,
 he was able to add all the parents of the kids in his troop, and this way he has a way to keep track of everything and no longer
-has to rely on the kids to make sure they had everything they needed._
+has to rely on the kids to make sure they have everything they will need._
 
 ### Project Board
 
