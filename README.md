@@ -55,7 +55,7 @@ _With the Camping Trip Planner, she can sign all her students up into a single t
 #### Tyler, a boy scout troop leader
 _Tyler is is the troop leader for his son's boy scout troop. He wants to take his troop camping this weeknd
 to teach them outdoor skills. However, he can't expect a bunch of middle schoolers to remember to bring everything, he needed
-to find an effecient way to organize everything in preperation for the trip. As we all know the boy scout motto is: "Always be prepared",
+to find an effecient way to organize everything in preperation for the trip. As we all know the boy scout motto is: "Be prepared",
 so clearly had to think of everything._
 
 _So, to deal with this he asks the parents of the kids in his troop for ideas and one of them suggests, Camping Trip Planner.
