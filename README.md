@@ -52,6 +52,18 @@ _Tracy, a middle school English teacher, is getting ready to take her class on a
 
 _With the Camping Trip Planner, she can sign all her students up into a single trip list to make sure enough supplies are brought, without over packing the busses. Rather than speaking to each student individually in the hopes they remember to bring what they are asked to bring, she makes a list of all the necessities, and has the student assign themselves to certain items. This way, Tracy can keep track of what has been tracked, and what is still missing._
 
+#### Tyler, a boy scout troop leader
+_Tyler is is the troop leader for his son's boy scout troop. He wants to take his troop camping this weeknd
+to teach them outdoor skills. However, he can't expect a bunch of middle schoolers to remember to bring everything, he needed
+to find an effecient way to organize everything in preperation for the trip. As we all know the boy scout motto is: "Be prepared",
+so clearly had to think of everything._
+
+_So, to deal with this he asks the parents of the kids in his troop for ideas and one of them suggests, Camping Trip Planner.
+Tyler, looked into it and found that Camping Trip Planner not only lets him create a list for his trip, but also allows him to 
+add people to share the list with so that they could also collaborate and use it as a checklist. Tyler had found his solution,
+he was able to add all the parents of the kids in his troop, and this way he has a way to keep track of everything and no longer
+has to rely on the kids to make sure they have everything they will need._
+
 ### Project Board
 
 _https://trello.com/b/uclUHtIM/camping-trip-planner_
