@@ -42,17 +42,29 @@
 <div>
     <div id="form_signup">
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email@email.com">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email.</small>
+            <label for="userName">Name</label>
+            <input type="name" class="form-control" id="userName" placeholder="name">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password">
-        </div>
+            <label for="userEmail">Email address</label>
+            <input type="email" class="form-control"
+                   id="userEmail" aria-describedby="emailHelp"
+                   placeholder="email@email.com">
+            <!--pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
+            //title="Invalid email address" />-->
+     <small id="emailHelp" class="form-text text-muted">We'll never share your email.</small>
+ </div>
+ <div class="form-group">
+     <label for="userPassword">Password</label>
+     <input type="password" class="form-control" id="userPassword" placeholder="password">
+ </div>
+ <div class="form-group">
+     <label for="userConfirmPassword">Confirm Password</label>
+     <input type="password" class="form-control" id="userConfirmPassword" placeholder="confirm password">
+ </div>
 
-        <button type="submit" class="btn btn-primary"onclick="signUp()">Sign Up!</button>
-    </div>
+ <button type="submit" class="btn btn-primary"onclick="validateForm()">Sign Up!</button>
+</div>
 </div>
 <!-- ^sign up modal^ -->
 
