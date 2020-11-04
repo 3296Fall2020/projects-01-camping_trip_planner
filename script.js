@@ -101,11 +101,16 @@ function signIn() {
 
 //check if forms are valid
 function validateForm() {
-    let name = document.getElementById("userName").value;
+    let firstName = document.getElementById("userFirstName").value;
+    let lastName = document.getElementById("userLastName").value;
     let email = document.getElementById("userEmail").value;
 
-    if (name == "") {
-        alert("Name must be filled out");
+    if (firstName == "") {
+        alert("First name must be filled out");
+        return false;
+    }
+    if (lastName == "") {
+        alert("Last name must be filled out");
         return false;
     }
     if (email == "") {
@@ -126,18 +131,9 @@ function validateForm() {
         alert("Password must match");
         return false;
     }
-    signUp();
-}
-
-async function signInPost(data) {
-
-
-}
-
-function signUp() {
+    //signUp();
     alert("thus spake zarathustra");
-
 }
 
-//--- End of Sign Up Process ---//
+
 
