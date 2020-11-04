@@ -117,6 +117,14 @@ function validateForm() {
         alert("Email must be filled out");
         return false;
     }
+    if (document.getElementById("userPassword").value  == "") {
+        alert("Password must be filled out");
+        return false;
+    }
+    if (document.getElementById("userConfirmPassword").value  == "") {
+        alert("Please confirm password");
+        return false;
+    }
 
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
