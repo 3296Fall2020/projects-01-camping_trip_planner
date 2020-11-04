@@ -1,7 +1,14 @@
-const serverAddress = "http://localhost:5000"
+const serverAddress = "https://api2.sebtota.com:5000"
 
 const warning_incorrectPass = document.getElementById('label_incorrect-password');
-const warning_recaptchaError = document.getElementById('label_recaptcha-error');
+const warning_recaptchaErrorSignIn = document.getElementById('label_recaptcha-error-signin');
+const warning_recaptchaErrorSignUp = document.getElementById('label_recaptcha-error-signup');
+
+const warning_passwordConfirmation = document.getElementById('label__pass_conf');
+
+const input_signupPass = document.getElementById("userPassword");
+const input_signupPassConf = document.getElementById("userConfirmPassword");
+
 
 if(1 === 1) {
     document.getElementById('nav_profile').style.display = "inline";
@@ -53,14 +60,14 @@ async function signInPost(data) {
 function signIn() {
     // Reset sign in warnings
     warning_incorrectPass.style.display = 'none';
-    warning_recaptchaError.style.display = 'none';
+    warning_recaptchaErrorSignIn.style.display = 'none';
 
     // Get recaptcha response
     const g_recaptcha_response = document.getElementById('g-recaptcha-response').value;
 
     // Don't process request unless recaptcha is complete
     if (g_recaptcha_response === '') {
-        warning_recaptchaError.style.display = 'inline';
+        warning_recaptchaErrorSignIn.style.display = 'inline';
         return;
     }
 
@@ -83,7 +90,7 @@ function signIn() {
                 warning_incorrectPass.style.display = 'inline';
             } else if(ret['error'] === 'failed-recaptcha') {
                 // recaptcha verification failed
-                warning_recaptchaError.style.display = 'inline';
+                warning_recaptchaErrorSignIn.style.display = 'inline';
             }
             grecaptcha.reset();  // Refresh captcha
         } else {
@@ -98,6 +105,14 @@ function signIn() {
 
 
 //--- Sign Up process ---//
+
+function confirmPass() {
+    if (input_signupPass.value !== input_signupPassConf.value) {
+        warning_passwordConfirmation.style.display = 'inline';
+    } else {
+        warning_passwordConfirmation.style.display = 'none';
+    }
+}
 
 //check if forms are valid
 function validateForm() {
@@ -134,13 +149,22 @@ function validateForm() {
         return false;
     }
 
-    if (document.getElementById("userPassword").value !=
-        document.getElementById("userConfirmPassword").value) {
-        alert("Password must match");
-        return false;
+    signUp();
+}
+
+
+function signUp() {
+    // Reset sign in warnings
+    warning_recaptchaErrorSignUp.style.display = 'none';
+
+    // Get recaptcha response
+    const g_recaptcha_response = document.getElementById('g-recaptcha-response-1').value;
+
+    // Don't process request unless recaptcha is complete
+    if (g_recaptcha_response === '') {
+        warning_recaptchaErrorSignUp.style.display = 'inline';
+        return;
     }
-    //signUp();
-    alert("thus spake zarathustra");
 }
 
 
