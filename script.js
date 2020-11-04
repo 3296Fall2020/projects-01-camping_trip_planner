@@ -99,6 +99,35 @@ function signIn() {
 
 //--- Sign Up process ---//
 
+//check if forms are valid
+function validateForm() {
+    let name = document.getElementById("userName").value;
+    let email = document.getElementById("userEmail").value;
+
+    if (name == "") {
+        alert("Name must be filled out");
+        return false;
+    }
+    if (email == "") {
+        alert("Email must be filled out");
+        return false;
+    }
+
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    if (reg.test(email) == false)
+    {
+        alert('Invalid Email Address');
+        return false;
+    }
+
+    if (document.getElementById("userPassword").value !=
+        document.getElementById("userConfirmPassword").value) {
+        alert("Password must match");
+        return false;
+    }
+    signUp();
+}
 
 async function signInPost(data) {
 
@@ -106,6 +135,7 @@ async function signInPost(data) {
 }
 
 function signUp() {
+    alert("thus spake zarathustra");
 
 }
 
