@@ -88,7 +88,7 @@ function signIn() {
             grecaptcha.reset();  // Refresh captcha
         } else {
             // Logged in successful
-            window.location.href="/frontend/profile.html";
+            window.location.href="profile.html";
         }
     });
 }
