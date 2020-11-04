@@ -94,3 +94,20 @@ function signIn() {
 }
 
 //--- End of sign in process ---//
+
+
+
+//--- Sign Up process ---//
+
+
+async function signInPost(data) {
+
+
+}
+
+function signUp() {
+
+}
+
+//--- End of Sign Up Process ---//
+
