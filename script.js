@@ -1,4 +1,9 @@
-const serverAddress = "https://api2.sebtota.com:5000"
+const serverAddress = "http://localhost:5000"
+
+const nav_signIn = document.getElementById('nav_sign-in')
+const nav_signOut = document.getElementById('nav_sign-out')
+const nav_profile = document.getElementById('nav_profile')
+
 
 const warning_incorrectPass = document.getElementById('label_incorrect-password');
 const warning_recaptchaErrorSignIn = document.getElementById('label_recaptcha-error-signin');
@@ -6,41 +11,34 @@ const warning_recaptchaErrorSignUp = document.getElementById('label_recaptcha-er
 
 const warning_passwordConfirmation = document.getElementById('label__pass_conf');
 
-const input_signupPass = document.getElementById("userPassword");
-const input_signupPassConf = document.getElementById("userConfirmPassword");
+const input_signupPass = document.getElementById("input_user-pass");
+const input_signupPassConf = document.getElementById("input_user-confirm-pass");
 
 
-if(1 === 1) {
-    document.getElementById('nav_profile').style.display = "inline";
-}
-
-async function apiCallGet(url){
-    // Make api call and wait for response before returning
-    // Add CORS header to allow cross origin resource sharing
-    const response = await fetch(url, {
-        mode: 'cors',
+//--- Check User Login (Session) ---//
+async function checkLoginGet() {
+    const response = await fetch(serverAddress + '/checkLogin', {
+        method: 'GET',
+        credentials: 'include',
         headers: {
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true'
         }
     });
     return await response.json();
 }
 
-function buttonClickGet() {
-    apiCallGet("http://localhost:5000/home").then(ret => {
-        alert(ret['name']);
-    });
-}
+checkLoginGet().then(ret => {
+    if (ret['status'] === 200) {
+        // Signed in
+        nav_signOut.style.display = "inline";
+        nav_profile.style.display = "inline";
+    } else {
+        nav_signIn.style.display = "inline";
+    }
+});
 
-async function getIpAddress() {
-    const response = await fetch('https://api.ipify.org/?format=json', {
-        mode: 'no-cors',
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-    });
-    return await response.json();
-}
+//--- END Check User Login ---//
 
 //--- Sign In Process ---//
 async function signInPost(data) {
@@ -48,8 +46,10 @@ async function signInPost(data) {
     // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true'
         },
         body: JSON.stringify(data)
     });
@@ -103,15 +103,85 @@ function signIn() {
 //--- End of sign in process ---//
 
 
+//--- Sign Out Process ---//
+async function signOutPost() {
+    const response = await fetch(serverAddress + '/logout', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true'
+        }
+    });
+    return await response.json();
+}
 
-//--- Sign Up process ---//
+function signOut() {
+    signOutPost().then(ret => {
+        console.log("signed out");
+    })
+}
 
+//--- Sign Up Process ---//
 function confirmPass() {
     if (input_signupPass.value !== input_signupPassConf.value) {
         warning_passwordConfirmation.style.display = 'inline';
     } else {
         warning_passwordConfirmation.style.display = 'none';
     }
+}
+
+async function signUpPost(data) {
+    // Make POST request submitting new account
+    // Add CORS header to allow cross origin resource sharing
+    const response = await fetch(serverAddress + '/signup', {
+        method: 'POST',
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(data)
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+function signUp() {
+    // Reset sign in warnings
+    warning_recaptchaErrorSignUp.style.display = 'none';
+
+    // Get recaptcha response
+    const g_recaptcha_response = document.getElementById('g-recaptcha-response-1').value;
+
+    // Don't process request unless recaptcha is complete
+    if (g_recaptcha_response === '') {
+        warning_recaptchaErrorSignUp.style.display = 'inline';
+        return;
+    }
+
+    signUpPost({
+        "first_name": document.getElementById('input_user-first-name').value,
+        "last_name": document.getElementById('input_user-last-name').value,
+        "email": document.getElementById('input_user-email').value,
+        "password": input_signupPass.value,
+        "password_conf": input_signupPassConf.value,
+        "recap_response": g_recaptcha_response
+    }).then(ret => {
+        if (ret['status'] === 401) {
+            // Unauthorized error
+            if (ret['error'] === 'incorrect-password') {
+                // Incorrect password
+                // Show incorrect password indicator
+                warning_incorrectPass.style.display = 'inline';
+            } else if(ret['error'] === 'failed-recaptcha') {
+                // recaptcha verification failed
+                warning_recaptchaErrorSignIn.style.display = 'inline';
+            }
+            grecaptcha.reset();  // Refresh captcha
+        } else {
+            // Logged in successful
+            window.location.href="profile.html";
+        }
+    });
 }
 
 //check if forms are valid
@@ -152,20 +222,4 @@ function validateForm() {
     signUp();
 }
 
-
-function signUp() {
-    // Reset sign in warnings
-    warning_recaptchaErrorSignUp.style.display = 'none';
-
-    // Get recaptcha response
-    const g_recaptcha_response = document.getElementById('g-recaptcha-response-1').value;
-
-    // Don't process request unless recaptcha is complete
-    if (g_recaptcha_response === '') {
-        warning_recaptchaErrorSignUp.style.display = 'inline';
-        return;
-    }
-}
-
-
-
+//--- END SIGN UP PROCESS ---//

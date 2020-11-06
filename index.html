@@ -31,8 +31,11 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                <li id="nav_sign-in" class="nav-item hidden">
                     <a class="nav-link" href="login.html">Login</a>
+                </li>
+                <li id="nav_sign-out" class="nav-item hidden">
+                    <a class="nav-link" href="index.html" onclick="signOut()">Sign Out</a>
                 </li>
             </ul>
         </div>
@@ -43,9 +46,6 @@
     <div style="text-align: center">
         <p>Some text about how our application works and is super great :)</p>
         <p>This is a link to our <a href="https://github.com/3296Fall2020/projects-01-camping_trip_planner">repository</a>.</p>
-
-        <button onclick="buttonClickGet()">This button</button>
-
         <br>
     </div>
 </div>
