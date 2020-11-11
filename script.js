@@ -1,4 +1,4 @@
-const serverAddress = "https://api2.sebtota.com:5000"
+const serverAddress = "http://localhost:5000"
 
 const nav_signIn = document.getElementById('nav_sign-in')
 const nav_signOut = document.getElementById('nav_sign-out')
@@ -14,6 +14,8 @@ const warning_passwordConfirmation = document.getElementById('label__pass_conf')
 const input_signupPass = document.getElementById("input_user-pass");
 const input_signupPassConf = document.getElementById("input_user-confirm-pass");
 
+let profile;
+
 
 //--- Check User Login (Session) ---//
 async function checkLoginGet() {
@@ -21,7 +23,7 @@ async function checkLoginGet() {
         method: 'GET',
         credentials: 'include',
         headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:5000',
             'Access-Control-Allow-Credentials': 'true'
         }
     });
@@ -33,6 +35,9 @@ checkLoginGet().then(ret => {
         // Signed in
         nav_signOut.style.display = "inline";
         nav_profile.style.display = "inline";
+        profile = ret['profile']
+        console.log(profile);
+        document.getElementById('profile-name').textContent = profile['full_name'];
     } else {
         nav_signIn.style.display = "inline";
     }
@@ -48,7 +53,7 @@ async function signInPost(data) {
         method: 'POST',
         credentials: 'include',
         headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:5000',
             'Access-Control-Allow-Credentials': 'true'
         },
         body: JSON.stringify(data)
@@ -63,7 +68,8 @@ function signIn() {
     warning_recaptchaErrorSignIn.style.display = 'none';
 
     // Get recaptcha response
-    const g_recaptcha_response = document.getElementById('g-recaptcha-response').value;
+    // const g_recaptcha_response = document.getElementById('g-recaptcha-response').value;
+    const g_recaptcha_response = '123';
 
     // Don't process request unless recaptcha is complete
     if (g_recaptcha_response === '') {
@@ -88,11 +94,14 @@ function signIn() {
                 // Incorrect password
                 // Show incorrect password indicator
                 warning_incorrectPass.style.display = 'inline';
-            } else if(ret['error'] === 'failed-recaptcha') {
+            }
+            /*
+            if(ret['error'] === 'failed-recaptcha') {
                 // recaptcha verification failed
                 warning_recaptchaErrorSignIn.style.display = 'inline';
             }
             grecaptcha.reset();  // Refresh captcha
+            */
         } else {
             // Logged in successful
             window.location.href="profile.html";
@@ -107,17 +116,18 @@ function signIn() {
 async function signOutPost() {
     const response = await fetch(serverAddress + '/logout', {
         method: 'GET',
-        credentials: 'include',
         headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:5000',
             'Access-Control-Allow-Credentials': 'true'
-        }
+        },
+        credentials: 'include'
     });
     return await response.json();
 }
 
 function signOut() {
     signOutPost().then(ret => {
+        console.log(ret);
         console.log("signed out");
     })
 }
