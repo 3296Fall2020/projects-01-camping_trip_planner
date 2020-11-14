@@ -54,6 +54,7 @@ async function signInPost(data) {
         credentials: 'include',
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:5000',
+            'CORS_SUPPORTS_CREDENTIALS': 'true',
             'Access-Control-Allow-Credentials': 'true'
         },
         body: JSON.stringify(data)
@@ -115,9 +116,10 @@ function signIn() {
 //--- Sign Out Process ---//
 async function signOutPost() {
     const response = await fetch(serverAddress + '/logout', {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:5000',
+            'CORS_SUPPORTS_CREDENTIALS': 'true',
             'Access-Control-Allow-Credentials': 'true'
         },
         credentials: 'include'
