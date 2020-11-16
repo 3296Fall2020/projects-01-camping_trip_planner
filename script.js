@@ -41,6 +41,7 @@ checkLoginGet().then(ret => {
     } else {
         nav_signIn.style.display = "inline";
     }
+    $("#loader").hide();
 });
 
 //--- END Check User Login ---//
@@ -53,8 +54,7 @@ async function signInPost(data) {
         method: 'POST',
         credentials: 'include',
         headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'CORS_SUPPORTS_CREDENTIALS': 'true',
+            'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': 'true'
         },
         body: JSON.stringify(data)
@@ -235,3 +235,7 @@ function validateForm() {
 }
 
 //--- END SIGN UP PROCESS ---//
+
+
+
+

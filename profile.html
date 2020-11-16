@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+<div id="loader" class="loader-div text-center">
+    <div class="loader spinner-border text-primary" role="status">
+    </div>
+</div>
 <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Camping Trip Planner</a>
@@ -53,31 +57,7 @@
                 <p class="h5">New Group Requests</p>
             </div>
             <div>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div style="width:70%; float:left;">
-                            <div>
-                                <p class="md1">Example Group Name</p>
-                            </div>
-                            <p class="small" style="margin-bottom: 0; ">Person Who Sent Invite</p>
-                        </div>
-                        <div style="width:30%; float:right;">
-                            <button style="width: 100%; margin-bottom: 3px;" type="button" class="btn btn-success btn-sm">Accept</button>
-                            <button style="width: 100%;" type="button" class="btn btn-danger btn-sm">Decline</button>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div style="width:70%; float:left;">
-                            <div>
-                                <p class="md1">Example Group Name</p>
-                            </div>
-                            <p class="small" style="margin-bottom: 0; ">Person Who Sent Invite</p>
-                        </div>
-                        <div style="width:30%; float:right;">
-                            <button style="width: 100%; margin-bottom: 3px;" type="button" class="btn btn-success btn-sm">Accept</button>
-                            <button style="width: 100%;" type="button" class="btn btn-danger btn-sm">Decline</button>
-                        </div>
-                    </li>
+                <ul id="group-invite-list" class="list-group">
                 </ul>
             </div>
         </div>
@@ -104,19 +84,7 @@
             </div>
             <div>
                 <ul class="list-group">
-                    <li class="list-group-item">
-                        <div style="width: 10%; float:left;">
-                            <div style="margin-top: 50%;">
-                                <input type="checkbox">
-                            </div>
-                        </div>
-                        <div style="width:90%; float:right;">
-                            <div>
-                                <p class="md1">Example List Item</p>
-                            </div>
-                            <p class="small" style="margin-bottom: 0;">First Last</p>
-                        </div>
-                    </li>
+
                     <li class="list-group-item">
                         <div style="width: 10%; float:left;">
                             <div style="margin-top: 50%;">
@@ -136,5 +104,6 @@
     </div>
 </div>
 <script src="script.js" type="application/javascript"></script>
+<script src="profile.js" type="application/javascript"></script>
 </body>
 </html>
