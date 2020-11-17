@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+<div id="loader" class="loader-div text-center">
+    <div class="loader spinner-border text-primary" role="status">
+    </div>
+</div>
 <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Camping Trip Planner</a>
@@ -23,7 +27,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
-                <li class="nav-item active">
+                <li id="nav_profile" class="nav-item active">
                     <a class="nav-link" href="#">Profile <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
@@ -38,6 +42,68 @@
         </div>
     </nav>
 </div>
+
+
+<div>
+    <div style="text-align: center">
+        <p id="profile-name" class="h2"></p>
+        <p class="h5">Adventurist</p>
+        <br>
+    </div>
+    <br>
+    <div style="width: 100%;">
+        <div id="new-group-requests" class="hidden" style="width: 35%; margin: auto;">
+            <div class="center">
+                <p class="h5">New Group Requests</p>
+            </div>
+            <div>
+                <ul id="group-invite-list" class="list-group">
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div style="width: 35%;">
+            <div class="center">
+                <p class="h5">Group List</p>
+            </div>
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <p class="md1" style="margin-bottom: 0;"><a href="https://www.google.com/">Example Group One</a></p>
+                    </li>
+                    <li class="list-group-item">
+                        <p class="md1" style="margin-bottom: 0;">Example Group Two</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div style="width: 35%;">
+            <div class="center">
+                <p class="h5">Example List</p>
+            </div>
+            <div>
+                <ul class="list-group">
+
+                    <li class="list-group-item">
+                        <div style="width: 10%; float:left;">
+                            <div style="margin-top: 50%;">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <div style="width:90%; float:right;">
+                            <div>
+                                <p class="md1">Example List Item</p>
+                            </div>
+                            <p class="small" style="margin-bottom: 0;">First Last</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="script.js" type="application/javascript"></script>
+<script src="profile.js" type="application/javascript"></script>
 </body>
 </html>
