@@ -158,6 +158,8 @@ async function signUpPost(data) {
 }
 
 function signUp() {
+    validateForm();
+
     // Reset sign in warnings
     warning_recaptchaErrorSignUp.style.display = 'none';
 
@@ -198,9 +200,9 @@ function signUp() {
 
 //check if forms are valid
 function validateForm() {
-    let firstName = document.getElementById("userFirstName").value;
-    let lastName = document.getElementById("userLastName").value;
-    let email = document.getElementById("userEmail").value;
+    let firstName = document.getElementById("input_user-first-name").value;
+    let lastName = document.getElementById("input_user-last-name").value;
+    let email = document.getElementById("input_user-email").value;
 
     if (firstName == "") {
         alert("First name must be filled out");
@@ -214,11 +216,11 @@ function validateForm() {
         alert("Email must be filled out");
         return false;
     }
-    if (document.getElementById("userPassword").value  == "") {
+    if (document.getElementById("input_password").value  == "") {
         alert("Password must be filled out");
         return false;
     }
-    if (document.getElementById("userConfirmPassword").value  == "") {
+    if (document.getElementById("input_user-confirm-pass").value  == "") {
         alert("Please confirm password");
         return false;
     }
@@ -230,8 +232,6 @@ function validateForm() {
         alert('Invalid Email Address');
         return false;
     }
-
-    signUp();
 }
 
 //--- END SIGN UP PROCESS ---//

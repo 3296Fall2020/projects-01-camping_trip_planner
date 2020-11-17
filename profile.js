@@ -111,6 +111,11 @@ getGroupRequests().then(ret => {
     if (ret['status'] === 200) {
         const invites = ret['invites'];
         console.log(invites);
+
+        if (invites.length > 0) {
+            $("#new-group-requests").show();
+        }
+
         for (let i = 0; i < invites.length; i++) {
             document.getElementById('group-invite-list').appendChild(
                 createGroupInviteListItem(invites[i]['group-name'], invites[i]['invite-from'], invites[i]['request-uuid'])
