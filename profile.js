@@ -47,8 +47,38 @@ function createGroupInviteListItem(groupName, inviteFrom, requestUuid) {
     return newListItem;
 }
 
+function createGroupListItem(groupName, groupUuid) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('list-group-item');
+
+    const listTitle = document.createElement('p');
+    listTitle.classList.add('md1');
+    listTitle.style.marginBottom = '0';
+    listTitle.textContent = groupName;
+
+    const listLink = document.createElement('a');
+    listLink.href = 'group.html?group-uuid=' + groupUuid;
+
+    listTitle.appendChild(listLink);
+    listItem.appendChild(listTitle);
+
+    return listItem;
+}
+
 async function getGroupRequests() {
     const response = await fetch(serverAddress + '/getGroupInvites', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Access-Control-Allow-Origin': 'http://localhost:5000',
+            'Access-Control-Allow-Credentials': 'true'
+        }
+    });
+    return await response.json();
+}
+
+async function getGroupList() {
+    const response = await fetch(serverAddress + '/getGroupsByUser', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -85,6 +115,12 @@ async function declineGroupInviteRequest(requestUuid) {
     return await response.json();
 }
 
+function checkGroupInvite() {
+    if ($('#group-invite-list').children().length === 0) {
+        $("#new-group-requests").hide();
+    }
+}
+
 function declineGroupInvite(requestUuid, buttonElement) {
     $("#loader").show();
     declineGroupInviteRequest(requestUuid).then(ret => {
@@ -92,6 +128,7 @@ function declineGroupInvite(requestUuid, buttonElement) {
             buttonElement.remove();
         }
         console.log(ret);
+        checkGroupInvite();
         $("#loader").hide();
     });
 }
@@ -103,6 +140,7 @@ function acceptGroupInvite(requestUuid, buttonElement) {
             buttonElement.remove();
         }
         console.log(ret);
+        checkGroupInvite();
         $("#loader").hide();
     });
 }
@@ -123,3 +161,17 @@ getGroupRequests().then(ret => {
         }
     }
 });
+
+getGroupList().then(ret => {
+    if (ret['status'] === 200) {
+        const groups = ret['groups'];
+        console.log(groups);
+
+        for (let i = 0; i < groups.length; i++) {
+            document.getElementById('group-list').appendChild(
+                createGroupListItem(groups[i]['group-name'], groups[i]['group-uuid'])
+            )
+        }
+    }
+});
+

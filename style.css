@@ -6,6 +6,18 @@
     width: 300px;
     margin: auto;
 }
+#header {
+    margin-bottom: 10px;
+}
+
+#intro-sign-up-btn {
+    width: 250px;
+}
+
+#intro-div {
+    width: 100%;
+    height: 60vh;
+}
 
 #form_signup {
     width: 300px;
