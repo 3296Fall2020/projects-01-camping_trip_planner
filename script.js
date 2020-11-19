@@ -57,8 +57,7 @@ function signIn() {
     warning_recaptchaErrorSignIn.style.display = 'none';
 
     // Get recaptcha response
-    // const g_recaptcha_response = document.getElementById('g-recaptcha-response').value;
-    const g_recaptcha_response = '123';
+    const g_recaptcha_response = document.getElementById('g-recaptcha-response').value;
 
     // Don't process request unless recaptcha is complete
     if (g_recaptcha_response === '') {
