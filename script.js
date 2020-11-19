@@ -21,11 +21,7 @@ let profile;
 async function checkLoginGet() {
     const response = await fetch(serverAddress + '/checkLogin', {
         method: 'GET',
-        credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        }
+        credentials: 'include'
     });
     return await response.json();
 }
@@ -35,11 +31,7 @@ checkLoginGet().then(ret => {
         // Signed in
         nav_signOut.style.display = "inline";
         nav_profile.style.display = "inline";
-        profile = ret['profile']
-        console.log(profile);
-        document.getElementById('profile-name').textContent = profile['full_name'];
-    } else {
-        nav_signIn.style.display = "inline";
+        nav_signIn.style.display = "none";
     }
     $("#loader").hide();
 });
@@ -53,10 +45,6 @@ async function signInPost(data) {
     const response = await fetch(serverAddress + '/login', {
         method: 'POST',
         credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': 'true'
-        },
         body: JSON.stringify(data)
     });
     // Wait for response from server, then parse the body of the response in json format
@@ -117,11 +105,6 @@ function signIn() {
 async function signOutPost() {
     const response = await fetch(serverAddress + '/logout', {
         method: 'POST',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'CORS_SUPPORTS_CREDENTIALS': 'true',
-            'Access-Control-Allow-Credentials': 'true'
-        },
         credentials: 'include'
     });
     return await response.json();
@@ -148,9 +131,7 @@ async function signUpPost(data) {
     // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/signup', {
         method: 'POST',
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
+        credentials: 'include',
         body: JSON.stringify(data)
     });
     // Wait for response from server, then parse the body of the response in json format

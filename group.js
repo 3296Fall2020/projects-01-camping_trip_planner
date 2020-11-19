@@ -1,11 +1,6 @@
 async function sendGroupInvitePost(data) {
     const response = await fetch(serverAddress + '/inviteUser', {
         method: 'POST',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'CORS_SUPPORTS_CREDENTIALS': 'true',
-            'Access-Control-Allow-Credentials': 'true'
-        },
         credentials: 'include',
         body: JSON.stringify(data)
     });

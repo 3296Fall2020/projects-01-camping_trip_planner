@@ -54,10 +54,10 @@ function createGroupListItem(groupName, groupUuid) {
     const listTitle = document.createElement('p');
     listTitle.classList.add('md1');
     listTitle.style.marginBottom = '0';
-    listTitle.textContent = groupName;
 
     const listLink = document.createElement('a');
     listLink.href = 'group.html?group-uuid=' + groupUuid;
+    listLink.textContent = groupName;
 
     listTitle.appendChild(listLink);
     listItem.appendChild(listTitle);
@@ -68,11 +68,7 @@ function createGroupListItem(groupName, groupUuid) {
 async function getGroupRequests() {
     const response = await fetch(serverAddress + '/getGroupInvites', {
         method: 'GET',
-        credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        }
+        credentials: 'include'
     });
     return await response.json();
 }
@@ -80,11 +76,7 @@ async function getGroupRequests() {
 async function getGroupList() {
     const response = await fetch(serverAddress + '/getGroupsByUser', {
         method: 'GET',
-        credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        }
+        credentials: 'include'
     });
     return await response.json();
 }
@@ -93,10 +85,6 @@ async function acceptGroupInviteRequest(requestUuid) {
     const response = await fetch(serverAddress + '/acceptGroupInvite', {
         method: 'POST',
         credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        },
         body: JSON.stringify({'request-uuid': requestUuid})
     });
     return await response.json();
@@ -106,10 +94,6 @@ async function declineGroupInviteRequest(requestUuid) {
     const response = await fetch(serverAddress + '/declineGroupInvite', {
         method: 'POST',
         credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        },
         body: JSON.stringify({'request-uuid': requestUuid})
     });
     return await response.json();
@@ -163,7 +147,10 @@ getGroupRequests().then(ret => {
 });
 
 getGroupList().then(ret => {
+    console.log(ret);
+    console.log(ret['status']);
     if (ret['status'] === 200) {
+        console.log("Creating group list");
         const groups = ret['groups'];
         console.log(groups);
 
@@ -173,5 +160,27 @@ getGroupList().then(ret => {
             )
         }
     }
+});
+
+async function checkLoginGet() {
+    const response = await fetch(serverAddress + '/checkLogin', {
+        method: 'GET',
+        credentials: 'include',
+    });
+    return await response.json();
+}
+
+checkLoginGet().then(ret => {
+    if (ret['status'] === 200) {
+        // Signed in
+        nav_signOut.style.display = "inline";
+        nav_profile.style.display = "inline";
+        nav_signIn.style.display = "none";
+        profile = ret['profile']
+        console.log(profile);
+        document.getElementById('profile-name').textContent = profile['full_name'];
+
+    }
+    $("#loader").hide();
 });
 

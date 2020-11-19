@@ -1,3 +1,7 @@
+body {
+    padding-bottom: 50px;
+}
+
 .logo {
     margin-bottom: 50px;
 }
@@ -14,9 +18,16 @@
     width: 250px;
 }
 
+@media(max-width: 400px) {
+    #intro-sign-up-btn {
+        width: 150px;
+    }
+}
+
 #intro-div {
+    font-family: 'Montserrat', sans-serif;
     width: 100%;
-    height: 60vh;
+    height: 100vh;
 }
 
 #form_signup {
@@ -36,6 +47,20 @@
 .center {
     text-align: center;
 }
+
+.center-div {
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+}
+
+.center-vert {
+    width: 100%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .hidden {
     display: none;
 }
