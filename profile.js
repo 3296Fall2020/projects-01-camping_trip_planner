@@ -129,58 +129,41 @@ function acceptGroupInvite(requestUuid, buttonElement) {
     });
 }
 
-getGroupRequests().then(ret => {
-    if (ret['status'] === 200) {
-        const invites = ret['invites'];
-        console.log(invites);
 
-        if (invites.length > 0) {
-            $("#new-group-requests").show();
+$( document ).ready(function() {
+    getGroupRequests().then(ret => {
+        if (ret['status'] === 200) {
+            const invites = ret['invites'];
+            console.log(invites);
+
+            if (invites.length > 0) {
+                $("#new-group-requests").show();
+            }
+
+            for (let i = 0; i < invites.length; i++) {
+                document.getElementById('group-invite-list').appendChild(
+                    createGroupInviteListItem(invites[i]['group-name'], invites[i]['invite-from'], invites[i]['request-uuid'])
+                )
+            }
         }
-
-        for (let i = 0; i < invites.length; i++) {
-            document.getElementById('group-invite-list').appendChild(
-                createGroupInviteListItem(invites[i]['group-name'], invites[i]['invite-from'], invites[i]['request-uuid'])
-            )
-        }
-    }
-});
-
-getGroupList().then(ret => {
-    console.log(ret);
-    console.log(ret['status']);
-    if (ret['status'] === 200) {
-        console.log("Creating group list");
-        const groups = ret['groups'];
-        console.log(groups);
-
-        for (let i = 0; i < groups.length; i++) {
-            document.getElementById('group-list').appendChild(
-                createGroupListItem(groups[i]['group-name'], groups[i]['group-uuid'])
-            )
-        }
-    }
-});
-
-async function checkLoginGet() {
-    const response = await fetch(serverAddress + '/checkLogin', {
-        method: 'GET',
-        credentials: 'include',
     });
-    return await response.json();
-}
 
-checkLoginGet().then(ret => {
-    if (ret['status'] === 200) {
-        // Signed in
-        nav_signOut.style.display = "inline";
-        nav_profile.style.display = "inline";
-        nav_signIn.style.display = "none";
-        profile = ret['profile']
-        console.log(profile);
-        document.getElementById('profile-name').textContent = profile['full_name'];
+    getGroupList().then(ret => {
+        console.log(ret);
+        console.log(ret['status']);
+        if (ret['status'] === 200) {
+            console.log("Creating group list");
+            const groups = ret['groups'];
+            console.log(groups);
 
-    }
-    $("#loader").hide();
+            for (let i = 0; i < groups.length; i++) {
+                document.getElementById('group-list').appendChild(
+                    createGroupListItem(groups[i]['group-name'], groups[i]['group-uuid'])
+                )
+            }
+        }
+    });
 });
+
+
 
