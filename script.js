@@ -16,15 +16,6 @@ const input_signupPassConf = document.getElementById("input_user-confirm-pass");
 
 let profile;
 
-if (sessionStorage.getItem('status') != null) {
-    // Signed in
-    nav_signOut.style.display = "inline";
-    nav_profile.style.display = "inline";
-    nav_signIn.style.display = "none";
-} else {
-    window.location.href="login.html";
-}
-
 //--- Check User Login (Session) ---//
 /*async function checkLoginGet() {
     const response = await fetch(serverAddress + '/checkLogin', {

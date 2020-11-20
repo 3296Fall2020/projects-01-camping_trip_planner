@@ -1,3 +1,12 @@
+if (sessionStorage.getItem('status') != null) {
+    // Signed in
+    nav_signOut.style.display = "inline";
+    nav_profile.style.display = "inline";
+    nav_signIn.style.display = "none";
+} else {
+    window.location.href="login.html";
+}
+
 async function sendGroupInvitePost(data) {
     const response = await fetch(serverAddress + '/inviteUser', {
         method: 'POST',
