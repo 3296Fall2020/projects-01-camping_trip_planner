@@ -116,6 +116,12 @@ function signOut() {
     })
 }
 
+$('#nav_sign-out').on('click',function (e){
+    e.preventDefault();
+    signOut();
+    window.location.href="index.html";
+});
+
 //--- Sign Up Process ---//
 function confirmPass() {
     if (input_signupPass.value !== input_signupPassConf.value) {
