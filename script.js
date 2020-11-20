@@ -26,16 +26,6 @@ async function checkLoginGet() {
     return await response.json();
 }
 
-checkLoginGet().then(ret => {
-    if (ret['status'] === 200) {
-        // Signed in
-        nav_signOut.style.display = "inline";
-        nav_profile.style.display = "inline";
-        nav_signIn.style.display = "none";
-    }
-    $("#loader").hide();
-});
-
 //--- END Check User Login ---//
 
 //--- Sign In Process ---//
@@ -120,6 +110,16 @@ $('#nav_sign-out').on('click',function (e){
     e.preventDefault();
     signOut();
     window.location.href="index.html";
+
+    checkLoginGet().then(ret => {
+        if (ret['status'] === 200) {
+            // Signed in
+            nav_signOut.style.display = "inline";
+            nav_profile.style.display = "inline";
+            nav_signIn.style.display = "none";
+        }
+        $("#loader").hide();
+    });
 });
 
 //--- Sign Up Process ---//
