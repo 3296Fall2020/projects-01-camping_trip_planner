@@ -81,10 +81,7 @@ function signIn() {
             */
         } else {
             // Logged in successful
-            jQuery(window).load(function() {
-                sessionStorage.setItem('status','logged-in');
-            });
-
+            sessionStorage.setItem('status','logged-in');
             window.location.href="profile.html";
         }
     });
@@ -108,9 +105,7 @@ function signOut() {
         console.log("signed out");
         $("#loader").hide();
 
-        jQuery(window).load(function() {
-            sessionStorage.setItem('status', null)
-        });
+        sessionStorage.setItem('status', null);
         window.location.href="index.html";
     })
 }
