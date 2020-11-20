@@ -25,6 +25,7 @@ function buttonClickGet() {
     });
 }
 
+
 async function getIpAddress() {
     const response = await fetch('https://api.ipify.org/?format=json', {
         mode: 'no-cors',
