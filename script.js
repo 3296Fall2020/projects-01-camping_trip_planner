@@ -15,18 +15,6 @@ const input_signupPass = document.getElementById("input_user-pass");
 const input_signupPassConf = document.getElementById("input_user-confirm-pass");
 
 let profile;
-
-//--- Check User Login (Session) ---//
-/*async function checkLoginGet() {
-    const response = await fetch(serverAddress + '/checkLogin', {
-        method: 'GET',
-        credentials: 'include'
-    });
-    return await response.json();
-}*/
-
-//--- END Check User Login ---//
-
 //--- Sign In Process ---//
 async function signInPost(data) {
     // Make POST request submitting
