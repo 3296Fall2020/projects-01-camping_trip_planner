@@ -16,15 +16,23 @@ const input_signupPassConf = document.getElementById("input_user-confirm-pass");
 
 let profile;
 
+if (sessionStorage.getItem('status') != null) {
+    // Signed in
+    nav_signOut.style.display = "inline";
+    nav_profile.style.display = "inline";
+    nav_signIn.style.display = "none";
+} else {
+    window.location.href="login.html";
+}
 
 //--- Check User Login (Session) ---//
-async function checkLoginGet() {
+/*async function checkLoginGet() {
     const response = await fetch(serverAddress + '/checkLogin', {
         method: 'GET',
         credentials: 'include'
     });
     return await response.json();
-}
+}*/
 
 //--- END Check User Login ---//
 
@@ -82,6 +90,10 @@ function signIn() {
             */
         } else {
             // Logged in successful
+            jQuery(window).load(function() {
+                sessionStorage.setItem('status','logged-in');
+            });
+
             window.location.href="profile.html";
         }
     });
@@ -103,23 +115,18 @@ function signOut() {
     signOutPost().then(ret => {
         console.log(ret);
         console.log("signed out");
+        $("#loader").hide();
+
+        jQuery(window).load(function() {
+            sessionStorage.setItem('status', null)
+        });
+        window.location.href="index.html";
     })
 }
 
 $('#nav_sign-out').on('click',function (e){
     e.preventDefault();
     signOut();
-    window.location.href="index.html";
-
-    checkLoginGet().then(ret => {
-        if (ret['status'] === 200) {
-            // Signed in
-            nav_signOut.style.display = "inline";
-            nav_profile.style.display = "inline";
-            nav_signIn.style.display = "none";
-        }
-        $("#loader").hide();
-    });
 });
 
 //--- Sign Up Process ---//
