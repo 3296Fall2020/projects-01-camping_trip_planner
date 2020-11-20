@@ -13,8 +13,6 @@ const warning_passwordConfirmation = document.getElementById('label__pass_conf')
 const input_signupPass = document.getElementById("input_user-pass");
 const input_signupPassConf = document.getElementById("input_user-confirm-pass");
 
-let profile;
-
 //--- Sign Out Process ---//
 async function signOutPost() {
     const response = await fetch(serverAddress + '/logout', {
