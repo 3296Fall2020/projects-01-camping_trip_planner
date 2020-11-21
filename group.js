@@ -1,4 +1,4 @@
-if (sessionStorage.getItem('status') === 'logged-in') {
+if (getCookie('status') === 'logged-in') {
     // Signed in
     nav_signOut.style.display = "inline";
     nav_profile.style.display = "inline";

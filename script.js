@@ -13,6 +13,41 @@ const warning_passwordConfirmation = document.getElementById('label__pass_conf')
 const input_signupPass = document.getElementById("input_user-pass");
 const input_signupPassConf = document.getElementById("input_user-confirm-pass");
 
+// Split and iterate over the cookie string, returning the cookie value if found
+function getCookie(cookieName) {
+    const cookies = document.cookie.split("; ");
+
+    // Iterate over every cookie in the cookie string
+    for (let i = 0; i < cookies.length; i++) {
+        let cookieObj = cookies[i].split("=");
+        if (cookieObj[0] === cookieName) {
+            // Remove double quotes from string if they exist
+            let retCookie = cookieObj[1];
+            if (retCookie[0] === '"') {
+                return retCookie.substring(1, retCookie.length - 1);
+            } else {
+                return retCookie;
+            }
+        }
+    }
+
+    // No cookie found with that name
+    return null;
+}
+
+// Set cookie by changing cookie value if it already exists, or appending the new cookie to the cookie string
+// if it doesn't already exists
+function setCookie(cookieName, cookieValue) {
+    // Check if cookie already exists in cookie string
+    if (document.cookie.includes(cookieName)) {
+        // Modify cookie value
+        document.cookie.replace(getCookie(cookieName), cookieValue);
+    } else {
+        // Add new cookie
+        document.cookie = document.cookie + cookieName + ":" + cookieValue + "; ";
+    }
+}
+
 //--- Sign Out Process ---//
 async function signOutPost() {
     const response = await fetch(serverAddress + '/logout', {
@@ -28,7 +63,7 @@ function signOut() {
         console.log("signed out");
         $("#loader").hide();
 
-        sessionStorage.setItem('status', null);
+        $.cookie('active', 'false');
         window.location.href="index.html";
     })
 }

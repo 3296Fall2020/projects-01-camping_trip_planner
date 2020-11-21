@@ -48,7 +48,8 @@ function signIn() {
             grecaptcha.reset();  // Refresh captcha
         } else {
             // Logged in successful
-            sessionStorage.setItem('status','logged-in');
+            setCookie('active', 'true');
+            // sessionStorage.setItem('status','logged-in');
             window.location.href="profile.html";
         }
     });

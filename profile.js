@@ -1,3 +1,14 @@
+// Check if user is signed in before displaying a profile page
+if (getCookie('active') === 'true') {
+    // Signed in
+    nav_signOut.style.display = "inline";
+    nav_profile.style.display = "inline";
+    nav_signIn.style.display = "none";
+} else {
+    // Redirect to login page
+    window.location.href="login.html";
+}
+
 function createGroupInviteListItem(groupName, inviteFrom, requestUuid) {
     const newListItem = document.createElement('li');
     newListItem.classList.add('list-group-item');
@@ -131,6 +142,8 @@ function acceptGroupInvite(requestUuid, buttonElement) {
 
 
 $( document ).ready(function() {
+
+
     getGroupRequests().then(ret => {
         if (ret['status'] === 200) {
             const invites = ret['invites'];
@@ -164,13 +177,9 @@ $( document ).ready(function() {
         }
     });
 
-    if (sessionStorage.getItem('status') === 'logged-in') {
-        // Signed in
-        nav_signOut.style.display = "inline";
-        nav_profile.style.display = "inline";
-        nav_signIn.style.display = "none";
-    } else {
-        window.location.href="login.html";
+    const name = getCookie("full_name");
+    if (name != null) {
+        $("#profile-name").text(name);
     }
 
     $("#loader").hide();
