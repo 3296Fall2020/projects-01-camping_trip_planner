@@ -79,7 +79,8 @@ function createGroupListItem(groupName, groupUuid) {
 async function getGroupRequests() {
     const response = await fetch(serverAddress + '/getGroupInvites', {
         method: 'GET',
-        credentials: 'include'
+        credentials: 'include',
+        redirect: 'follow'
     });
     return await response.json();
 }
@@ -87,7 +88,8 @@ async function getGroupRequests() {
 async function getGroupList() {
     const response = await fetch(serverAddress + '/getGroupsByUser', {
         method: 'GET',
-        credentials: 'include'
+        credentials: 'include',
+        redirect: 'follow'
     });
     return await response.json();
 }
@@ -105,6 +107,7 @@ async function declineGroupInviteRequest(requestUuid) {
     const response = await fetch(serverAddress + '/declineGroupInvite', {
         method: 'POST',
         credentials: 'include',
+        redirect: 'follow',
         body: JSON.stringify({'request-uuid': requestUuid})
     });
     return await response.json();

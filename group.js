@@ -1,4 +1,4 @@
-if (getCookie('status') === 'logged-in') {
+if (getCookie('active') === 'true') {
     // Signed in
     nav_signOut.style.display = "inline";
     nav_profile.style.display = "inline";
@@ -11,6 +11,7 @@ async function sendGroupInvitePost(data) {
     const response = await fetch(serverAddress + '/inviteUser', {
         method: 'POST',
         credentials: 'include',
+        redirect: 'follow',
         body: JSON.stringify(data)
     });
     return await response.json();

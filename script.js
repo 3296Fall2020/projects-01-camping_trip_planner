@@ -1,4 +1,4 @@
-const serverAddress = "https://camping.sebtota.com:5000"
+const serverAddress = "http://localhost:5000"
 
 const nav_signIn = document.getElementById('nav_sign-in')
 const nav_signOut = document.getElementById('nav_sign-out')
@@ -35,23 +35,11 @@ function getCookie(cookieName) {
     return null;
 }
 
-// Set cookie by changing cookie value if it already exists, or appending the new cookie to the cookie string
-// if it doesn't already exists
-function setCookie(cookieName, cookieValue) {
-    // Check if cookie already exists in cookie string
-    if (document.cookie.includes(cookieName)) {
-        // Modify cookie value
-        document.cookie.replace(getCookie(cookieName), cookieValue);
-    } else {
-        // Add new cookie
-        document.cookie = document.cookie + cookieName + ":" + cookieValue + "; ";
-    }
-}
-
 //--- Sign Out Process ---//
 async function signOutPost() {
     const response = await fetch(serverAddress + '/logout', {
         method: 'POST',
+        redirect: 'follow',
         credentials: 'include'
     });
     return await response.json();
@@ -63,7 +51,6 @@ function signOut() {
         console.log("signed out");
         $("#loader").hide();
 
-        $.cookie('active', 'false');
         window.location.href="index.html";
     })
 }

@@ -8,6 +8,7 @@ async function signInPost(data) {
     const response = await fetch(serverAddress + '/login', {
         method: 'POST',
         credentials: 'include',
+        redirect: 'follow',
         body: JSON.stringify(data)
     });
     // Wait for response from server, then parse the body of the response in json format
@@ -72,6 +73,7 @@ async function signUpPost(data) {
     const response = await fetch(serverAddress + '/signup', {
         method: 'POST',
         credentials: 'include',
+        redirect: 'follow',
         body: JSON.stringify(data)
     });
     // Wait for response from server, then parse the body of the response in json format
