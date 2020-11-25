@@ -1,3 +1,14 @@
+// Check if user is signed in before displaying a profile page
+if (getCookie('active') === 'true') {
+    // Signed in
+    nav_signOut.style.display = "inline";
+    nav_profile.style.display = "inline";
+    nav_signIn.style.display = "none";
+} else {
+    // Redirect to login page
+    window.location.href="login.html";
+}
+
 function createGroupInviteListItem(groupName, inviteFrom, requestUuid) {
     const newListItem = document.createElement('li');
     newListItem.classList.add('list-group-item');
@@ -47,14 +58,38 @@ function createGroupInviteListItem(groupName, inviteFrom, requestUuid) {
     return newListItem;
 }
 
+function createGroupListItem(groupName, groupUuid) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('list-group-item');
+
+    const listTitle = document.createElement('p');
+    listTitle.classList.add('md1');
+    listTitle.style.marginBottom = '0';
+
+    const listLink = document.createElement('a');
+    listLink.href = 'group.html?group-uuid=' + groupUuid;
+    listLink.textContent = groupName;
+
+    listTitle.appendChild(listLink);
+    listItem.appendChild(listTitle);
+
+    return listItem;
+}
+
 async function getGroupRequests() {
     const response = await fetch(serverAddress + '/getGroupInvites', {
         method: 'GET',
         credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        }
+        redirect: 'follow'
+    });
+    return await response.json();
+}
+
+async function getGroupList() {
+    const response = await fetch(serverAddress + '/getGroupsByUser', {
+        method: 'GET',
+        credentials: 'include',
+        redirect: 'follow'
     });
     return await response.json();
 }
@@ -63,10 +98,6 @@ async function acceptGroupInviteRequest(requestUuid) {
     const response = await fetch(serverAddress + '/acceptGroupInvite', {
         method: 'POST',
         credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        },
         body: JSON.stringify({'request-uuid': requestUuid})
     });
     return await response.json();
@@ -76,13 +107,16 @@ async function declineGroupInviteRequest(requestUuid) {
     const response = await fetch(serverAddress + '/declineGroupInvite', {
         method: 'POST',
         credentials: 'include',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:5000',
-            'Access-Control-Allow-Credentials': 'true'
-        },
+        redirect: 'follow',
         body: JSON.stringify({'request-uuid': requestUuid})
     });
     return await response.json();
+}
+
+function checkGroupInvite() {
+    if ($('#group-invite-list').children().length === 0) {
+        $("#new-group-requests").hide();
+    }
 }
 
 function declineGroupInvite(requestUuid, buttonElement) {
@@ -92,6 +126,7 @@ function declineGroupInvite(requestUuid, buttonElement) {
             buttonElement.remove();
         }
         console.log(ret);
+        checkGroupInvite();
         $("#loader").hide();
     });
 }
@@ -103,23 +138,55 @@ function acceptGroupInvite(requestUuid, buttonElement) {
             buttonElement.remove();
         }
         console.log(ret);
+        checkGroupInvite();
         $("#loader").hide();
     });
 }
 
-getGroupRequests().then(ret => {
-    if (ret['status'] === 200) {
-        const invites = ret['invites'];
-        console.log(invites);
 
-        if (invites.length > 0) {
-            $("#new-group-requests").show();
-        }
+$( document ).ready(function() {
 
-        for (let i = 0; i < invites.length; i++) {
-            document.getElementById('group-invite-list').appendChild(
-                createGroupInviteListItem(invites[i]['group-name'], invites[i]['invite-from'], invites[i]['request-uuid'])
-            )
+
+    getGroupRequests().then(ret => {
+        if (ret['status'] === 200) {
+            const invites = ret['invites'];
+            console.log(invites);
+
+            if (invites.length > 0) {
+                $("#new-group-requests").show();
+            }
+
+            for (let i = 0; i < invites.length; i++) {
+                document.getElementById('group-invite-list').appendChild(
+                    createGroupInviteListItem(invites[i]['group-name'], invites[i]['invite-from'], invites[i]['request-uuid'])
+                )
+            }
         }
+    });
+
+    getGroupList().then(ret => {
+        console.log(ret);
+        console.log(ret['status']);
+        if (ret['status'] === 200) {
+            console.log("Creating group list");
+            const groups = ret['groups'];
+            console.log(groups);
+
+            for (let i = 0; i < groups.length; i++) {
+                document.getElementById('group-list').appendChild(
+                    createGroupListItem(groups[i]['group-name'], groups[i]['group-uuid'])
+                )
+            }
+        }
+    });
+
+    const name = getCookie("full_name");
+    if (name != null) {
+        $("#profile-name").text(name);
     }
+
+    $("#loader").hide();
+
 });
+
+
