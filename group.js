@@ -1,3 +1,7 @@
+const urlParams = new URLSearchParams(window.location.search);
+const groupName = decodeURIComponent(urlParams.get('group-name'));
+const groupUuid = urlParams.get('group-uuid');
+
 if (getCookie('active') === 'true') {
     // Signed in
     nav_signOut.style.display = "inline";
@@ -18,8 +22,6 @@ async function sendGroupInvitePost(data) {
 }
 
 function sendGroupInvite() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const groupUuid = urlParams.get('group-uuid');
     const inviteEmail = document.getElementById('input_inviteEmail').value;
 
     sendGroupInvitePost({
