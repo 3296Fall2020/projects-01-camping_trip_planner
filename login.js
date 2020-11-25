@@ -49,7 +49,7 @@ function signIn() {
             grecaptcha.reset();  // Refresh captcha
         } else {
             // Logged in successful
-            setCookie('active', 'true');
+            // setCookie('active', 'true');
             // sessionStorage.setItem('status','logged-in');
             window.location.href="profile.html";
         }
