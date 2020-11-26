@@ -67,7 +67,7 @@ function createGroupListItem(groupName, groupUuid) {
     listTitle.style.marginBottom = '0';
 
     const listLink = document.createElement('a');
-    listLink.href = 'group.html?group-uuid=' + groupUuid;
+    listLink.href = 'group.html?group-uuid=' + groupUuid + '&group-name=' + groupName;
     listLink.textContent = groupName;
 
     listTitle.appendChild(listLink);
