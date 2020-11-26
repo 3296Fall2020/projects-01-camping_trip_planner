@@ -17,7 +17,7 @@
 <body>
 
 <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="index.html">
             <img src="img/Pitched.png" width="150px" alt="">
         </a>
@@ -43,9 +43,12 @@
 </div>
 
 
-<div style="width: 100%;">
-    <div style="width: 30%; margin: auto;">
+<div>
+    <div id="group-data-container">
         <div class="center">
+            <div>
+                <input type="text" id="group-name-display" onchange="renameGroup(this.value)">
+            </div>
             <div>
                 <div class="form-group">
                     <label for="input_inviteEmail">Invite a new user to the group:</label>
@@ -56,6 +59,45 @@
         </div>
     </div>
 </div>
+
+<!-- Change element -->
+<div id="modal_change-element" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="element-change-header" class="modal-header">
+                <div style="width: 90%;">
+                    <textarea id="element-change-name">Backpack</textarea>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="element-change-modal-body" class="modal-body">
+                <div style="margin-top: 10px; margin-bottom: 15px;">
+                    <p class="element-change-modal-label"><strong>In list:</strong></p>
+                    <a id="element-change-list-name">Hiking Trip List</a>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p class="element-change-modal-label"><strong>Assigned</strong></p>
+                    <button type="button" class="btn btn-outline-info btn-sm">Assign to myself</button>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p class="element-change-modal-label"><strong>Description</strong></p>
+                    <textarea id="element-change-description" oninput="expandTextarea(this)"></textarea>
+                    <button id="element-change-description-btn" type="button" class="btn btn-outline-info btn-sm">Save</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Done</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#modal_change-element').modal('toggle');
+</script>
 
 <script src="script.js"></script>
 <script src="group.js"></script>

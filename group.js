@@ -32,3 +32,20 @@ function sendGroupInvite() {
         location.reload(true);
     })
 }
+
+function expandTextarea(element) {
+    element.style.height = "";
+    element.style.height = element.scrollHeight + "px";
+}
+
+function renameGroup(newName) {
+    postRequest('/renameGroup', {
+        'group-uuid': groupUuid,
+        'new-name': newName
+    }).then(ret => {
+        console.log("Changed name");
+        console.log(ret);
+    })
+}
+
+document.getElementById('group-name-display').value = groupName;
