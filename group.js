@@ -11,6 +11,36 @@ if (getCookie('active') === 'true') {
     window.location.href="login.html";
 }
 
+function addUserToGroupList() {
+    const groupUserList = document.getElementById('group-user-display');
+
+    createRequest('/getUsersInGroup?group_uuid=' + groupUuid, 'GET').then(ret => {
+        if (ret['status'] === 200) {
+            // <li class="group-user">ST</li>
+            for (let i = 0; i < ret['users'].length; i++) {
+                let user = ret['users'][i];
+                let listItem = document.createElement('li');
+                listItem.classList.add('group-user');
+                listItem.textContent = user['first-name'][0] + user['last-name'][0];
+                listItem.title = user['first-name'] + ' ' + user['last-name'] + " : " + user['email'];
+                listItem.setAttribute('data-toggle', 'tooltip');
+                listItem.setAttribute('data-placement', 'top');
+                listItem.onclick = function() {
+                    displayUserModal(user['first-name'] + ' ' + user['last-name'], user['email']);
+                }
+
+                groupUserList.appendChild(listItem);
+            }
+        }
+    })
+}
+
+function displayUserModal(name, email) {
+    $('#modal_group-user').modal('toggle');
+    $('#group-user-modal-name').text(name);
+    $('#group-user-modal-email').text(email);
+}
+
 async function sendGroupInvitePost(data) {
     const response = await fetch(serverAddress + '/inviteUser', {
         method: 'POST',
@@ -39,7 +69,7 @@ function expandTextarea(element) {
 }
 
 function renameGroup(newName) {
-    postRequest('/renameGroup', {
+    createRequest('/renameGroup','POST', {
         'group-uuid': groupUuid,
         'new-name': newName
     }).then(ret => {
@@ -48,4 +78,5 @@ function renameGroup(newName) {
     })
 }
 
+addUserToGroupList();
 document.getElementById('group-name-display').value = groupName;

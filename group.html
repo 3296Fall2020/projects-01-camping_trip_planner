@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Group List</title>
+    <title>Pitched</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -48,6 +48,8 @@
         <div class="center">
             <div>
                 <input type="text" id="group-name-display" onchange="renameGroup(this.value)">
+                <ul id="group-user-display">
+                </ul>
             </div>
             <div>
                 <div class="form-group">
@@ -94,10 +96,36 @@
         </div>
     </div>
 </div>
+<!-- Change element -->
+<div id="modal_group-user" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div  class="modal-header">
+                <div>
+                    <h4 style="display: inline;">User Info</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p style="display: inline;">Name: </p>
+                    <p id="group-user-modal-name" style="display: inline;"></p>
+                </div>
+                <div>
+                    <p style="display: inline;">Email: </p>
+                    <p id="group-user-modal-email" style="display: inline;"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<script>
-    $('#modal_change-element').modal('toggle');
-</script>
+
 
 <script src="script.js"></script>
 <script src="group.js"></script>
