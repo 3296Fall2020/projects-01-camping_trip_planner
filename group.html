@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
+
 </head>
 <body>
 
@@ -55,17 +59,14 @@
             </div>
         </div>
     </div>
-    <div style="max-width: 400px; margin: auto;">
-        <div class="center">
-            <p class="h5">Lists</p>
-        </div>
-        <div>
-            <ul id="group-lists" class="list-inline">
-            </ul>
-        </div>
-    </div>
 
+    <table id="data-table" class="display" width="100%"></table>
+        <header>DataTable</header>
 </div>
+
+
+
+
 
 
 <script src="script.js"></script>
