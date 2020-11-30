@@ -234,3 +234,8 @@ table.dataTable th:active {
     width: 300px;
     margin: auto;
 }
+
+#delete_list {
+    width: 300px;
+    margin: auto;
+}
