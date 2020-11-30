@@ -48,6 +48,11 @@ body {
     text-align: center;
 }
 
+.group-header-center {
+    text-align: center;
+    margin-top:116px;
+}
+
 .center-div {
     margin: auto;
     width: 100%;
