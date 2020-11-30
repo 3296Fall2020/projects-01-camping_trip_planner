@@ -67,7 +67,7 @@ function createGroupListItem(groupName, groupUuid) {
     listTitle.style.marginBottom = '0';
 
     const listLink = document.createElement('a');
-    listLink.href = 'group.html?group-uuid=' + groupUuid;
+    listLink.href = 'group.html?group-uuid=' + groupUuid + '&group-name=' + groupName;
     listLink.textContent = groupName;
 
     listTitle.appendChild(listLink);
@@ -136,6 +136,32 @@ function acceptGroupInvite(requestUuid, buttonElement) {
     acceptGroupInviteRequest(requestUuid).then(ret => {
         if (ret['status'] === 200) {
             buttonElement.remove();
+        }
+        console.log(ret);
+        checkGroupInvite();
+        $("#loader").hide();
+    });
+}
+
+async function newGroupPost(data) {
+    console.log(data);
+    const response = await fetch(serverAddress + '/createGroup', {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+function newGroup() {
+    $("#loader").show();
+    newGroupPost({
+        'group-name': document.getElementById('input_user-group-name').value,
+    }).then(ret => {
+        if (ret['status'] === 200) {
+            $('#modal_new-group').modal('hide');
+            window.location.reload(true);
         }
         console.log(ret);
         checkGroupInvite();
