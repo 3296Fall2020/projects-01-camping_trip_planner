@@ -239,3 +239,8 @@ table.dataTable th:active {
     width: 300px;
     margin: auto;
 }
+
+#new_group{
+    width: 300px;
+    margin: auto;
+}
