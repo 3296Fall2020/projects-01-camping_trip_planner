@@ -225,3 +225,12 @@ table.dataTable th:active {
     *margin-top: -1px;
 }
 
+#new_list {
+    width: 300px;
+    margin: auto;
+}
+
+#new_item {
+    width: 300px;
+    margin: auto;
+}
