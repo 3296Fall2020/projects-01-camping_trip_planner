@@ -60,6 +60,11 @@
                 </div>
             </div>
             <br>
+            <div class="center">
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modal_new-group">Create Group
+                </button>
+            </div>
+            <br>
             <div style="max-width: 400px; margin: auto;">
                 <div class="center">
                     <p class="h5">Group List</p>
@@ -77,3 +82,32 @@
 <script src="profile.js" type="application/javascript"></script>
 </body>
 </html>
+
+<!-- New Group modal -->
+<div id="modal_new-group" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="new_group">
+                        <div class="form-group">
+                            <label for="input_user-group-name">Group Name</label>
+                            <input type="text" class="form-control" id="input_user-group-name" placeholder="Group name">
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="newGroup()">Create Group</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

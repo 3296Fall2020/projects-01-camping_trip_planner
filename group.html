@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css"/>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+
+
 </head>
 <body>
 
@@ -58,10 +66,132 @@
                 </div>
                 <button type="submit" class="btn btn-primary" onclick="sendGroupInvite()">Send Invite</button>
             </div>
+            &nbsp;
+            <div class="center">
+                <button class="btn_sign-in btn btn-success" data-toggle="modal" data-target="#modal_new-list">Create New List</button>
+            </div>
+            </div>
+    </div>
+
+    <h3 id="data-table1Header"></h3>
+    <table id="data-table1" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table2Header"></h3>
+    <table id="data-table2" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table3Header"></h3>
+    <table id="data-table3" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table4Header"></h3>
+    <table id="data-table4" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table5Header"></h3>
+    <table id="data-table5" class="display" width="100%"></table>
+
+</div>
+
+<!-- New List modal -->
+<div id="modal_new-list" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="new_list">
+                        <div class="form-group">
+                            <label for="input_user-list-name">List Name</label>
+                            <input type="text" class="form-control" id="input_user-list-name" placeholder="List Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="createNewList()">Create!</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- New Item modal -->
+<div id="modal_add-item" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="new_item">
+                        <div class="form-group">
+                            <label for="input_user-item-name">Item Name</label>
+                            <input type="text" class="form-control" id="input_user-item-name" placeholder="Item name">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-quantity">Item Quantity</label>
+                            <input type="text" class="form-control" id="input_user-item-quantity" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-cost">Item Price</label>
+                            <input type="text" class="form-control" id="input_user-item-cost" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-description">Item Description</label>
+                            <input type="text" class="form-control" id="input_user-item-description" placeholder="Description">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-status">Item Status</label>
+                            <input type="text" class="form-control" id='input_user-item-status' placeholder="Status">
+                        </div>
+                        <div id="list-id" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addNewItem()">Add!</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Item modal -->
+<div id="modal_delete_list" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="delete_list">
+                        <div class="modal-body" style="height: 75px">
+                            <p>Are you sure you wish to delete this list (data will be purged)?</p>
+                        </div>
+                        <div id="list-uuid" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="deleteList()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Change element -->
 <div id="modal_change-element" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -124,7 +254,6 @@
         </div>
     </div>
 </div>
-
 
 
 <script src="script.js"></script>

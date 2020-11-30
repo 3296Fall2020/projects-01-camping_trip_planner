@@ -144,6 +144,32 @@ function acceptGroupInvite(requestUuid, buttonElement) {
     });
 }
 
+async function newGroupPost(data) {
+    console.log(data);
+    const response = await fetch(serverAddress + '/createGroup', {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+function newGroup() {
+    $("#loader").show();
+    newGroupPost({
+        'group-name': document.getElementById('input_user-group-name').value,
+    }).then(ret => {
+        if (ret['status'] === 200) {
+            $('#modal_new-group').modal('hide');
+            window.location.reload(true);
+        }
+        console.log(ret);
+        checkGroupInvite();
+        $("#loader").hide();
+    });
+}
+
 
 function generateGroupList() {
     getGroupList().then(ret => {
