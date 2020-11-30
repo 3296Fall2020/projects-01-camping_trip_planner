@@ -85,6 +85,7 @@ async function getLists() {
     return await response.json();
 }
 
+//return list elements from db
 async function getElements() {
 
     const response = await fetch(serverAddress + '/getElementsByList?list-uuid=' +listUuid, {
@@ -95,6 +96,7 @@ async function getElements() {
     return await response.json();
 }
 
+//create list item
 function createListItem(item) {
     const listItem = document.createElement('li');
     listItem.classList.add('list-item');
@@ -109,6 +111,7 @@ function createListItem(item) {
     return listItem;
 }
 
+//get the div id for the table we are currently rendering
 function getTableDivId(num){
    switch(num) {
         case num = 0:
@@ -124,6 +127,7 @@ function getTableDivId(num){
     }
 }
 
+//db add new item
 async function newItemPost(data) {
     console.log(data);
     // Make POST request submitting new account
@@ -138,6 +142,7 @@ async function newItemPost(data) {
     return await response.json();
 }
 
+//adding new item
 function addNewItem(){
     newItemPost({
         'list-id' : document.getElementById('list-id').value,
@@ -158,13 +163,50 @@ function addNewItem(){
     });
 }
 
+//adding item modal
 function addItemModal(listId){
     document.getElementById('list-id').value = listId;
     $('#modal_add-item').modal('show');
 }
 
+//db delete list
+async function deleteListPost(data) {
+    console.log(data);
+    // Make POST request submitting new account
+    // Add CORS header to allow cross origin resource sharing
+    const response = await fetch(serverAddress + '/deleteList', {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+
+function deleteList(){
+    deleteListPost({
+        'list-uuid' : document.getElementById('list-uuid').value,
+    }).then(ret => {
+        if (ret['status'] === 400) {
+        }
+        else{
+            $('#modal_new-item').modal('hide');
+            window.location.reload(true);
+        }
+    });
+}
+
+//show modal to confirm list deletion
+function deleteListModal(listId){
+    document.getElementById('list-uuid').value = listId;
+    $('#modal_delete_list').modal('show');
+}
+
+
 //render a single table
-function renderTable(tableDivId, temp, listId){
+function renderTable(tableDivId, temp, listId, listUuid){
     getElements().then(ret => {
         console.log(ret);
         console.log(ret['status']);
@@ -177,7 +219,7 @@ function renderTable(tableDivId, temp, listId){
             let dataSet = [];
 
             for (let i = 0; i < elements.length; i++) {
-                dataSet.push([0, elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status']]);
+                dataSet.push([0, elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status'], '']);
                 console.log(dataSet);
             }
 
@@ -186,6 +228,17 @@ function renderTable(tableDivId, temp, listId){
             document.getElementById(headerDiv).textContent = temp;
 
             $(document).ready(function () {
+
+                $('#tableDivId').on('click', 'a.editor_remove', function (e) {
+                    e.preventDefault();
+
+                    editor.remove( $(this).closest('tr'), {
+                        title: 'Delete record',
+                        message: 'Are you sure you wish to remove this record?',
+                        buttons: 'Delete'
+                    } );
+                } );
+
                 $(tableDivId).DataTable({
                     data: dataSet,
                     'columnDefs': [{
@@ -206,8 +259,14 @@ function renderTable(tableDivId, temp, listId){
                         {title: "Quantity", width: '100px'},
                         {title: "Price", width: '100px'},
                         {title: "Description", width: '200px'},
-                        {title: "Status"},
+                        {title: "Status", width: '70px'},
+                        {title: "Action"}
                     ],
+                   /* "initComplete": function(oSettings) {
+                        $(this).on('click', "i.fa.fa-minus-square", function(e) {
+                            table.row( $(this).closest('tr') ).remove().draw();
+                        });
+                    },*/
                     dom: 'Bfrtip',
                     buttons: [
                         {
@@ -215,6 +274,13 @@ function renderTable(tableDivId, temp, listId){
                             action: function ( e, dt, node, config ) {
                                 //alert( 'Button activated' );
                                 addItemModal(listId);
+                            }
+                        },
+                        {
+                            text: 'Delete List',
+                            action: function ( e, dt, node, config ) {
+                                //alert( 'Button activated' );
+                                deleteListModal(listUuid);
                             }
                         }
                     ]
@@ -245,7 +311,7 @@ $( document ).ready(function() {
                 console.log(lists[j]['list-name']);
                 let listId = lists[j]['list-id'];
                 let listName = lists[j]['list-name'];
-                renderTable(getTableDivId(j), listName , listId);
+                renderTable(getTableDivId(j), listName , listId, listUuid);
             }
         }
     });
