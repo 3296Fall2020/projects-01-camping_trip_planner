@@ -97,7 +97,7 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <div id="form_signup">
+                    <div id="new_list">
                         <div class="form-group">
                             <label for="input_user-list-name">List Name</label>
                             <input type="text" class="form-control" id="input_user-list-name" placeholder="List Name">
@@ -109,6 +109,52 @@
                 <button type="button" class="btn btn-primary" onclick="createNewList()">Create!</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Item modal -->
+<div id="modal_add-item" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="new_item">
+                        <div class="form-group">
+                            <label for="input_user-item-name">Item Name</label>
+                            <input type="text" class="form-control" id="input_user-item-name" placeholder="Item name">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-quantity">Item Quantity</label>
+                            <input type="text" class="form-control" id="input_user-item-quantity" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-cost">Item Price</label>
+                            <input type="text" class="form-control" id="input_user-item-cost" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-description">Item Description</label>
+                            <input type="text" class="form-control" id="input_user-item-description" placeholder="Description">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-status">Item Status</label>
+                            <input type="text" class="form-control" id='input_user-item-status' placeholder="Status">
+                        </div>
+                        <div id="list-id" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addNewItem()">Add!</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
         </div>
     </div>
 </div>
