@@ -7,6 +7,7 @@ const groupName = decodeURIComponent(urlParams.get('group-name'));
 const groupUuid = urlParams.get('group-uuid');
 
 let listUuid;
+let listCount;
 
 if (getCookie('active') === 'true') {
     // Signed in
@@ -37,6 +38,40 @@ function sendGroupInvite() {
         console.log(ret);
         location.reload(true);
     })
+}
+
+
+async function newListPost(data) {
+    // Make POST request submitting new account
+    // Add CORS header to allow cross origin resource sharing
+    const response = await fetch(serverAddress + '/createList?group-uuid=\' +groupUuid', {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+function createNewList() {
+
+    if(listCount === 5){
+        alert( 'Please consider a pro membership if you would like to have more than 5 lists :)');
+        return;
+    }
+
+    newListPost({
+        "name": document.getElementById('input_user-list-name').value,
+        "group-uuid": groupUuid
+    }).then(ret => {
+        if (ret['status'] === 400) {
+        }
+        else{
+            $('#modal_new-list').modal('hide');
+            window.location.reload(true);
+        }
+    });
 }
 
 document.getElementById('group-name-display').textContent = groupName;
@@ -89,8 +124,9 @@ function getTableDivId(num){
     }
 }
 
+
 //render a single table
-function renderTable(tableDivId){
+function renderTable(tableDivId, temp){
     getElements().then(ret => {
         console.log(ret);
         console.log(ret['status']);
@@ -101,13 +137,15 @@ function renderTable(tableDivId){
             console.log(elements);
 
             let dataSet = [];
-            console.log(139);
+
             for (let i = 0; i < elements.length; i++) {
                 dataSet.push([0, elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status']]);
                 console.log(dataSet);
-                console.log(143);
             }
-            console.log(144);
+
+            let headerDiv = tableDivId.concat("Header");
+            headerDiv = headerDiv.substr(1, headerDiv.length);
+            document.getElementById(headerDiv).textContent = temp;
 
             $(document).ready(function () {
                 $(tableDivId).DataTable({
@@ -131,6 +169,15 @@ function renderTable(tableDivId){
                         {title: "Price", width: '100px'},
                         {title: "Description", width: '200px'},
                         {title: "Status"},
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            text: 'Add item',
+                            action: function ( e, dt, node, config ) {
+                                alert( 'Button activated' );
+                            }
+                        }
                     ]
                 });
                 //$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
@@ -149,12 +196,14 @@ $( document ).ready(function() {
             console.log("Creating group page lists");
             const lists = ret['lists'];
             console.log(lists);
+            listCount = lists.length;
 
             //populate individual list
             for(let j = 0; j < lists.length; j++)
             {
                 listUuid = lists[j]['list-id'];
-                renderTable(getTableDivId(j));
+                console.log(lists[j]['list-name']);
+                renderTable(getTableDivId(j), lists[j]['list-name']);
             }
         }
     });
