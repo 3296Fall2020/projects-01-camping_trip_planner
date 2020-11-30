@@ -139,6 +139,7 @@ function acceptGroupInvite(requestUuid, buttonElement) {
         }
         console.log(ret);
         checkGroupInvite();
+        generateGroupList();
         $("#loader").hide();
     });
 }
@@ -170,6 +171,25 @@ function newGroup() {
 }
 
 
+function generateGroupList() {
+    getGroupList().then(ret => {
+        console.log(ret);
+        console.log(ret['status']);
+        if (ret['status'] === 200) {
+            console.log("Creating group list");
+            const groups = ret['groups'];
+            console.log(groups);
+
+            for (let i = 0; i < groups.length; i++) {
+                document.getElementById('group-list').appendChild(
+                    createGroupListItem(groups[i]['group-name'], groups[i]['group-uuid'])
+                )
+            }
+        }
+    });
+}
+
+
 $( document ).ready(function() {
 
 
@@ -190,25 +210,12 @@ $( document ).ready(function() {
         }
     });
 
-    getGroupList().then(ret => {
-        console.log(ret);
-        console.log(ret['status']);
-        if (ret['status'] === 200) {
-            console.log("Creating group list");
-            const groups = ret['groups'];
-            console.log(groups);
-
-            for (let i = 0; i < groups.length; i++) {
-                document.getElementById('group-list').appendChild(
-                    createGroupListItem(groups[i]['group-name'], groups[i]['group-uuid'])
-                )
-            }
-        }
-    });
+    generateGroupList();
 
     const name = getCookie("full_name");
     if (name != null) {
         $("#profile-name").text(name);
+        // document.getElementById('profile-name').value = name;
     }
 
     $("#loader").hide();

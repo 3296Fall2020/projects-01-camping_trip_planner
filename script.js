@@ -1,4 +1,4 @@
-const serverAddress = "https://camping.sebtota.com:5000"
+const serverAddress = "http://localhost:5000"
 
 const nav_signIn = document.getElementById('nav_sign-in')
 const nav_signOut = document.getElementById('nav_sign-out')
@@ -12,6 +12,28 @@ const warning_passwordConfirmation = document.getElementById('label__pass_conf')
 
 const input_signupPass = document.getElementById("input_user-pass");
 const input_signupPassConf = document.getElementById("input_user-confirm-pass");
+
+
+async function createRequest(route, method='POST', data = undefined) {
+    let response;
+
+    if (data === undefined) {
+         response = await fetch(serverAddress + route, {
+            method: method,
+            redirect: 'follow',
+            credentials: 'include'
+        });
+    } else {
+        response = await fetch(serverAddress + route, {
+            method: method,
+            redirect: 'follow',
+            credentials: 'include',
+            body: JSON.stringify(data)
+        });
+    }
+
+    return await response.json();
+}
 
 // Split and iterate over the cookie string, returning the cookie value if found
 function getCookie(cookieName) {
