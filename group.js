@@ -124,9 +124,47 @@ function getTableDivId(num){
     }
 }
 
+async function newItemPost(data) {
+    console.log(data);
+    // Make POST request submitting new account
+    // Add CORS header to allow cross origin resource sharing
+    const response = await fetch(serverAddress + '/addElementToList', {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+function addNewItem(){
+    newItemPost({
+        'list-id' : document.getElementById('list-id').value,
+        'element-name' : document.getElementById('input_user-item-name').value,
+        'element-description' : document.getElementById('input_user-item-description').value,
+        'element-quantity' : document.getElementById('input_user-item-quantity').value,
+        'element_cost': document.getElementById('input_user-item-cost').value,
+        'element-user-id' : 100,
+        'element_status': document.getElementById('input_user-item-status').value
+
+    }).then(ret => {
+        if (ret['status'] === 400) {
+        }
+        else{
+            $('#modal_new-item').modal('hide');
+            window.location.reload(true);
+        }
+    });
+}
+
+function addItemModal(listId){
+    document.getElementById('list-id').value = listId;
+    $('#modal_add-item').modal('show');
+}
 
 //render a single table
-function renderTable(tableDivId, temp){
+function renderTable(tableDivId, temp, listId){
     getElements().then(ret => {
         console.log(ret);
         console.log(ret['status']);
@@ -175,7 +213,8 @@ function renderTable(tableDivId, temp){
                         {
                             text: 'Add item',
                             action: function ( e, dt, node, config ) {
-                                alert( 'Button activated' );
+                                //alert( 'Button activated' );
+                                addItemModal(listId);
                             }
                         }
                     ]
@@ -201,9 +240,12 @@ $( document ).ready(function() {
             //populate individual list
             for(let j = 0; j < lists.length; j++)
             {
-                listUuid = lists[j]['list-id'];
+                listUuid = lists[j]['list-uuid'];
+
                 console.log(lists[j]['list-name']);
-                renderTable(getTableDivId(j), lists[j]['list-name']);
+                let listId = lists[j]['list-id'];
+                let listName = lists[j]['list-name'];
+                renderTable(getTableDivId(j), listName , listId);
             }
         }
     });
