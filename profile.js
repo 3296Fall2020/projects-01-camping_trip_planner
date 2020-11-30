@@ -172,6 +172,11 @@ function newGroup() {
 
 
 function generateGroupList() {
+    const groupList = document.getElementById('group-list')
+    while (groupList.firstChild) {
+        groupList.removeChild(groupList.firstChild);
+    }
+
     getGroupList().then(ret => {
         console.log(ret);
         console.log(ret['status']);

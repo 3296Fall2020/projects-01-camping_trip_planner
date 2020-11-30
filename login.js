@@ -139,7 +139,7 @@ function validateForm() {
         alert("Email must be filled out");
         return false;
     }
-    if (document.getElementById("input_password").value  == "") {
+    if (document.getElementById("input_user-pass").value  == "") {
         alert("Password must be filled out");
         return false;
     }
