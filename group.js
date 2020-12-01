@@ -343,7 +343,7 @@ function renderTable(tableDivId, temp, listId, listUuid){
             let dataSet = [];
 
             for (let i = 0; i < elements.length; i++) {
-                dataSet.push([0, elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status'], elements[i]["item-uuid"]]);
+                dataSet.push([elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status'], elements[i]["item-uuid"]]);
                 console.log(dataSet);
             }
 
@@ -369,19 +369,9 @@ function renderTable(tableDivId, temp, listId, listUuid){
                         style: 'single'
                     },
                     'columnDefs': [{
-                        'targets': 0,
-                        "width": "20%",
-                        'searchable': false,
-                        'orderable': false,
-                        'className': 'dt-body-center',
-                        'render': function (data, type, full, meta) {
-                            return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                        },
                         order: [[1, 'asc']]
-
                     }],
                     columns: [
-                        {title: " ", width: '50px'},
                         {title: "Item Name", width: '120px'},
                         {title: "Quantity", width: '100px'},
                         {title: "Price", width: '100px'},
