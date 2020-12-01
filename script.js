@@ -1,4 +1,4 @@
-const serverAddress = "http://localhost:5000"
+const serverAddress = "https://camping.sebtota.com:5000"
 
 
 const nav_signIn = document.getElementById('nav_sign-in')
