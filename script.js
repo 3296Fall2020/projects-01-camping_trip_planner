@@ -1,5 +1,6 @@
 const serverAddress = "https://camping.sebtota.com:5000"
 
+
 const nav_signIn = document.getElementById('nav_sign-in')
 const nav_signOut = document.getElementById('nav_sign-out')
 const nav_profile = document.getElementById('nav_profile')
