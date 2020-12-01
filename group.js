@@ -89,15 +89,12 @@ addUserToGroupList();
 document.getElementById('group-name-display').value = groupName;
 
 async function newListPost(data) {
-    // Make POST request submitting new account
-    // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/createList?group-uuid=\' +groupUuid', {
         method: 'POST',
         credentials: 'include',
         redirect: 'follow',
         body: JSON.stringify(data)
     });
-    // Wait for response from server, then parse the body of the response in json format
     return await response.json();
 }
 
@@ -177,15 +174,12 @@ function getTableDivId(num){
 //db add new item
 async function newItemPost(data) {
     console.log(data);
-    // Make POST request submitting new account
-    // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/addElementToList', {
         method: 'POST',
         credentials: 'include',
         redirect: 'follow',
         body: JSON.stringify(data)
     });
-    // Wait for response from server, then parse the body of the response in json format
     return await response.json();
 }
 
@@ -220,15 +214,12 @@ function addItemModal(listId){
 //db delete list
 async function deleteListPost(data) {
     console.log(data);
-    // Make POST request submitting new account
-    // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/deleteList', {
         method: 'POST',
         credentials: 'include',
         redirect: 'follow',
         body: JSON.stringify(data)
     });
-    // Wait for response from server, then parse the body of the response in json format
     return await response.json();
 }
 
@@ -300,7 +291,6 @@ function editItem(){
         if (ret['status'] === 400) {
         }
         else{
-            console.log("305 " + selectedItem[6]);
             deleteItem(selectedItem[6]);
             window.location.reload(true);
         }
@@ -313,13 +303,13 @@ function editItem(){
 function editItemModal(listId, elementId){
     document.getElementById('edit-list-id').value = listId;
 
-    document.getElementById("edit-item-name").value = selectedItem[1];
-    document.getElementById("edit-item-quantity").value = selectedItem[2];
-    document.getElementById("edit-item-cost").value = selectedItem[3];
-    document.getElementById("edit-item-description").value = selectedItem[4];
-    document.getElementById("edit-item-status").value = selectedItem[5];
+    document.getElementById("edit-item-name").value = selectedItem[0];
+    document.getElementById("edit-item-quantity").value = selectedItem[1];
+    document.getElementById("edit-item-cost").value = selectedItem[2];
+    document.getElementById("edit-item-description").value = selectedItem[3];
+    document.getElementById("edit-item-status").value = selectedItem[4];
 
-    document.getElementById( "edit-element-id").value = selectedItem[6];
+    document.getElementById( "edit-element-id").value = selectedItem[5];
     $("#edit-item-modal").modal('show');
 }
 
@@ -353,16 +343,6 @@ function renderTable(tableDivId, temp, listId, listUuid){
 
             $(document).ready(function () {
 
-                /* $('#tableDivId').on('click', 'a.editor_remove', function (e) {
-                     e.preventDefault();
-
-                     editor.remove( $(this).closest('tr'), {
-                         title: 'Delete record',
-                         message: 'Are you sure you wish to remove this record?',
-                         buttons: 'Delete'
-                     } );
-                 } );*/
-
                 $(tableDivId).DataTable({
                     data: dataSet,
                     select: {
@@ -381,15 +361,12 @@ function renderTable(tableDivId, temp, listId, listUuid){
                     ],
                     /* "initComplete": function(oSettings) {
                          $(this).on('click', "i.fa.fa-minus-square", function(e) {
-                             table.row( $(this).closest('tr') ).remove().draw();
-                         });
-                     },*/
+                             table.row( $(this).closest('tr') ).remove().draw();});},*/
                     dom: 'Bfrtip',
                     buttons: [
                         {
                             text: 'Add item',
                             action: function ( e, dt, node, config ) {
-                                //alert( 'Button activated' );
                                 addItemModal(listId);
                             }
                         },
@@ -426,7 +403,6 @@ function renderTable(tableDivId, temp, listId, listUuid){
                         }
                     ]
                 });
-                //$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
             });
         }
     });
