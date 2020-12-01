@@ -202,7 +202,7 @@ function addNewItem(){
             $('#modal_new-item').modal('hide');
             //let temp = [];
             //temp.push(['element-name'],['element-quantity' ],['element_cost'], ['element-description'], ['element_status'],  ]);
-            return temp;
+            //return temp;
             window.location.reload(true);
         }
     });
@@ -294,7 +294,7 @@ function editItem(){
         if (ret['status'] === 400) {
         }
         else{
-            deleteItem(selectedItem[6]);
+            deleteItem(selectedItem[5]);
             window.location.reload(true);
         }
     });
