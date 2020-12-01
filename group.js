@@ -421,7 +421,7 @@ function renderTable(tableDivId, temp, listId, listUuid){
                             text: 'Delete List',
                             action: function ( e, dt, node, config ) {
                                 //alert( 'Button activated' );
-                                deleteListModal(listId);
+                                deleteListModal(listUuid);
                             }
                         }
                     ]
