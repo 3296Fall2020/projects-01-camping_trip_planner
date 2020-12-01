@@ -14,6 +14,8 @@ _For a group of adventure seekers who are planning an outdoors activity together
 Trip Planner is a web app that allows groups to plan a trip together in a more intuitive and seamless 
 way unlike Google Sheets which takes longer to create._
 
+### Features
+
 ### Personas
 
 #### Julia, a college student
