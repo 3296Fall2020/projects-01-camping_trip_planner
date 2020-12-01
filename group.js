@@ -200,6 +200,9 @@ function addNewItem(){
         }
         else{
             $('#modal_new-item').modal('hide');
+            //let temp = [];
+            //temp.push(['element-name'],['element-quantity' ],['element_cost'], ['element-description'], ['element_status'],  ]);
+            return temp;
             window.location.reload(true);
         }
     });
@@ -378,8 +381,10 @@ function renderTable(tableDivId, temp, listId, listUuid){
                                     return item
                                 });
                                 elementUuid = selectedItem[5];
-                                editItemModal(listId, selectedItem[5]);
-                                this.row('.selected').remove().draw( false );
+                                if(this.rows( '.selected' ).any()) {
+                                    editItemModal(listId, selectedItem[5], this);
+                                    this.row('.selected').remove().draw(false);
+                                }
                             }
                         },
                         {
