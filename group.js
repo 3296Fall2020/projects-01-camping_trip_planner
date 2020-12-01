@@ -404,7 +404,7 @@ function renderTable(tableDivId, temp, listId, listUuid){
                             }
                         },
                         {
-                            text: 'Edit selected item',
+                            text: 'Edit item',
                             action: function ( e, dt, node, config ) {
                                 selectedItem = $.map(this.row('.selected').data(), function (item) {
                                     console.log("Item " + item);
@@ -412,6 +412,18 @@ function renderTable(tableDivId, temp, listId, listUuid){
                                 });
                                 elementUuid = selectedItem[6];
                                 editItemModal(listId, selectedItem[6]);
+                                this.row('.selected').remove().draw( false );
+                            }
+                        },
+                        {
+                            text: 'Delete item',
+                            action: function ( e, dt, node, config ) {
+                                selectedItem = $.map(this.row('.selected').data(), function (item) {
+                                    console.log("Item " + item);
+                                    return item
+                                });
+                                elementUuid = selectedItem[6];
+                                deleteItem(selectedItem[6]);
                                 this.row('.selected').remove().draw( false );
                             }
                         },
