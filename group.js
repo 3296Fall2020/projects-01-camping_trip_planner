@@ -400,8 +400,8 @@ function renderTable(tableDivId, temp, listId, listUuid){
                                     console.log("Item " + item);
                                     return item
                                 });
-                                elementUuid = selectedItem[6];
-                                editItemModal(listId, selectedItem[6]);
+                                elementUuid = selectedItem[5];
+                                editItemModal(listId, selectedItem[5]);
                                 this.row('.selected').remove().draw( false );
                             }
                         },
@@ -412,8 +412,8 @@ function renderTable(tableDivId, temp, listId, listUuid){
                                     console.log("Item " + item);
                                     return item
                                 });
-                                elementUuid = selectedItem[6];
-                                deleteItem(selectedItem[6]);
+                                elementUuid = selectedItem[5];
+                                deleteItem(selectedItem[5]);
                                 this.row('.selected').remove().draw( false );
                             }
                         },
@@ -421,7 +421,7 @@ function renderTable(tableDivId, temp, listId, listUuid){
                             text: 'Delete List',
                             action: function ( e, dt, node, config ) {
                                 //alert( 'Button activated' );
-                                deleteListModal(listId, selectedItem[6]);
+                                deleteListModal(listId);
                             }
                         }
                     ]
