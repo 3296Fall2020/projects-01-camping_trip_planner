@@ -73,11 +73,26 @@ function expandTextarea(element) {
     element.style.height = element.scrollHeight + "px";
 }
 
+function changeUrlVar(param, newVal) {
+    let url = window.location.href;
+    const urlParams = window.location.href.split("?")[1].split("&");
+    for (let i = 0; i < urlParams.length; i++) {
+        console.log(urlParams[i]);
+        console.log(urlParams[i].split("=")[0]);
+        if (urlParams[i].split("=")[0] === param) {
+            console.log("Chaning");
+            url = url.replace(urlParams[i], urlParams[i].split("=")[0] + "=" + newVal);
+            location.href = url;
+        }
+    }
+}
+
 function renameGroup(newName) {
     createRequest('/renameGroup','POST', {
         'group-uuid': groupUuid,
         'new-name': newName
     }).then(ret => {
+        changeUrlVar('group-name', newName);
         console.log("Changed name");
         console.log(ret);
     })
