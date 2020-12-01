@@ -6,6 +6,8 @@ const groupUuid = urlParams.get('group-uuid');
 
 let listUuid;
 let listCount;
+let selectedItem;
+let elementUuid;
 
 if (getCookie('active') === 'true') {
     // Signed in
@@ -73,26 +75,11 @@ function expandTextarea(element) {
     element.style.height = element.scrollHeight + "px";
 }
 
-function changeUrlVar(param, newVal) {
-    let url = window.location.href;
-    const urlParams = window.location.href.split("?")[1].split("&");
-    for (let i = 0; i < urlParams.length; i++) {
-        console.log(urlParams[i]);
-        console.log(urlParams[i].split("=")[0]);
-        if (urlParams[i].split("=")[0] === param) {
-            console.log("Chaning");
-            url = url.replace(urlParams[i], urlParams[i].split("=")[0] + "=" + newVal);
-            location.href = url;
-        }
-    }
-}
-
 function renameGroup(newName) {
     createRequest('/renameGroup','POST', {
         'group-uuid': groupUuid,
         'new-name': newName
     }).then(ret => {
-        changeUrlVar('group-name', newName);
         console.log("Changed name");
         console.log(ret);
     })
@@ -173,7 +160,7 @@ function createListItem(item) {
 
 //get the div id for the table we are currently rendering
 function getTableDivId(num){
-   switch(num) {
+    switch(num) {
         case num = 0:
             return "#data-table1"
         case num = 1:
@@ -206,6 +193,7 @@ async function newItemPost(data) {
 function addNewItem(){
     newItemPost({
         'list-id' : document.getElementById('list-id').value,
+
         'element-name' : document.getElementById('input_user-item-name').value,
         'element-description' : document.getElementById('input_user-item-description').value,
         'element-quantity' : document.getElementById('input_user-item-quantity').value,
@@ -258,12 +246,88 @@ function deleteList(){
     });
 }
 
+//db delete Item
+async function deleteItemPost() {
+    console.log("250 " + elementUuid);
+    const response = await fetch(serverAddress + '/deleteElementFromList?element-uuid=' +elementUuid, {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+//deleteItem
+function deleteItem(elementId){
+    deleteItemPost({
+        "element-uuid" : elementId
+    }).then(ret => {
+        if (ret['status'] === 400) {
+        }
+        else{
+        }
+    });
+}
+
+//db edit  item
+async function editItemPost(data) {
+    console.log(data);
+    const response = await fetch(serverAddress + '/addElementToList', {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+//editing item
+function editItem(){
+    console.log(291);
+    newItemPost({
+        'list-id' : document.getElementById('edit-list-id').value,
+
+        'element-name' : document.getElementById("edit-item-name").value,
+        'element-description' : document.getElementById('edit-item-description').value,
+        'element-quantity' : document.getElementById("edit-item-quantity").value,
+        'element_cost': document.getElementById('edit-item-cost').value,
+        'element-user-id' : 100,
+        'element_status': document.getElementById('edit-item-status').value
+
+    }).then(ret => {
+        if (ret['status'] === 400) {
+        }
+        else{
+            console.log("305 " + selectedItem[6]);
+            deleteItem(selectedItem[6]);
+            window.location.reload(true);
+        }
+    });
+}
+
+
+
+//show modal to edit selected item
+function editItemModal(listId, elementId){
+    document.getElementById('edit-list-id').value = listId;
+
+    document.getElementById("edit-item-name").value = selectedItem[1];
+    document.getElementById("edit-item-quantity").value = selectedItem[2];
+    document.getElementById("edit-item-cost").value = selectedItem[3];
+    document.getElementById("edit-item-description").value = selectedItem[4];
+    document.getElementById("edit-item-status").value = selectedItem[5];
+
+    document.getElementById( "edit-element-id").value = selectedItem[6];
+    $("#edit-item-modal").modal('show');
+}
+
 //show modal to confirm list deletion
 function deleteListModal(listId){
     document.getElementById('list-uuid').value = listId;
     $('#modal_delete_list').modal('show');
 }
-
 
 //render a single table
 function renderTable(tableDivId, temp, listId, listUuid){
@@ -279,7 +343,7 @@ function renderTable(tableDivId, temp, listId, listUuid){
             let dataSet = [];
 
             for (let i = 0; i < elements.length; i++) {
-                dataSet.push([0, elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status'], '']);
+                dataSet.push([0, elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status'], elements[i]["item-uuid"]]);
                 console.log(dataSet);
             }
 
@@ -289,18 +353,21 @@ function renderTable(tableDivId, temp, listId, listUuid){
 
             $(document).ready(function () {
 
-                $('#tableDivId').on('click', 'a.editor_remove', function (e) {
-                    e.preventDefault();
+                /* $('#tableDivId').on('click', 'a.editor_remove', function (e) {
+                     e.preventDefault();
 
-                    editor.remove( $(this).closest('tr'), {
-                        title: 'Delete record',
-                        message: 'Are you sure you wish to remove this record?',
-                        buttons: 'Delete'
-                    } );
-                } );
+                     editor.remove( $(this).closest('tr'), {
+                         title: 'Delete record',
+                         message: 'Are you sure you wish to remove this record?',
+                         buttons: 'Delete'
+                     } );
+                 } );*/
 
                 $(tableDivId).DataTable({
                     data: dataSet,
+                    select: {
+                        style: 'single'
+                    },
                     'columnDefs': [{
                         'targets': 0,
                         "width": "20%",
@@ -319,14 +386,14 @@ function renderTable(tableDivId, temp, listId, listUuid){
                         {title: "Quantity", width: '100px'},
                         {title: "Price", width: '100px'},
                         {title: "Description", width: '200px'},
-                        {title: "Status", width: '70px'},
-                        {title: "Action"}
+                        {title: "Bought (T/F)", width: '70px'},
+                        { "visible": false, "targets": 6 }
                     ],
-                   /* "initComplete": function(oSettings) {
-                        $(this).on('click', "i.fa.fa-minus-square", function(e) {
-                            table.row( $(this).closest('tr') ).remove().draw();
-                        });
-                    },*/
+                    /* "initComplete": function(oSettings) {
+                         $(this).on('click', "i.fa.fa-minus-square", function(e) {
+                             table.row( $(this).closest('tr') ).remove().draw();
+                         });
+                     },*/
                     dom: 'Bfrtip',
                     buttons: [
                         {
@@ -337,10 +404,22 @@ function renderTable(tableDivId, temp, listId, listUuid){
                             }
                         },
                         {
+                            text: 'Edit selected item',
+                            action: function ( e, dt, node, config ) {
+                                selectedItem = $.map(this.row('.selected').data(), function (item) {
+                                    console.log("Item " + item);
+                                    return item
+                                });
+                                elementUuid = selectedItem[6];
+                                editItemModal(listId, selectedItem[6]);
+                                this.row('.selected').remove().draw( false );
+                            }
+                        },
+                        {
                             text: 'Delete List',
                             action: function ( e, dt, node, config ) {
                                 //alert( 'Button activated' );
-                                deleteListModal(listUuid);
+                                deleteListModal(listId, selectedItem[6]);
                             }
                         }
                     ]
@@ -378,3 +457,4 @@ $( document ).ready(function() {
 
 
 });
+
