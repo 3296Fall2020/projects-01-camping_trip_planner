@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="919825982648-shios9jdsohdvamp2csggvt4cn6vmrcg.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+</head>
+<body>
+
+<div style="height: 100vh; width: 100%;">
+    <div id="header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/Pitched.png" width="150px" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li id="nav_profile" class="nav-item hidden">
+                        <a class="nav-link" href="profile.html">Profile</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li id="nav_sign-in" class="nav-item">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                    <li id="nav_sign-out" class="nav-item hidden">
+                        <a class="nav-link" href="index.html">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="intro-container" class="container">
+        <div id="form_signin">
+            <p class="h4 center">Welcome back!</p>
+            <div class="form-group">
+                <label for="input_email">Email address</label>
+                <input type="email" class="form-control" id="input_email" placeholder="email@email.com">
+            </div>
+            <div class="form-group">
+                <label for="input_password">Password</label>
+                <input type="password" class="form-control" id="input_password" placeholder="password">
+                <p id="label_incorrect-password" class="hidden small warning-text">Incorrect password</p>
+                <p id="label_forgot-password" class="small center" style="text-align: left;"><a>Forgot Password</a></p>
+            </div>
+            <div class="g-recaptcha" data-sitekey="6LcipN0ZAAAAAJIN9RSb5Rk0oHZaWwnCyZg3-DmN"></div>
+            <p id="label_recaptcha-error-signin" class="hidden small warning-text">Please complete captcha!</p>
+            <br>
+
+            <button class="btn_sign-in btn btn-primary " onclick="signIn()">Sign In</button>
+            <button class="btn_sign-in btn btn-success" data-toggle="modal" data-target="#modal_sign-up">Create New
+                Account
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sign up modal -->
+<div id="modal_sign-up" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sign up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="form_signup">
+                        <div class="form-group">
+                            <label for="input_user-first-name">First Name</label>
+                            <input type="text" class="form-control" id="input_user-first-name" placeholder="Firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-last-name">Last Name</label>
+                            <input type="text" class="form-control" id="input_user-last-name" placeholder="Lastname">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-email">Email address</label>
+                            <input type="email" class="form-control"
+                                   id="input_user-email" aria-describedby="emailHelp"
+                                   placeholder="email@email.com">
+                            <!--pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
+                            //title="Invalid email address" />-->
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-pass">Password</label>
+                            <input type="password" class="form-control" id="input_user-pass" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-confirm-pass">Confirm Password</label>
+                            <input type="password" class="form-control" id="input_user-confirm-pass"
+                                   onkeyup="confirmPass()" placeholder="Confirm Password">
+                            <p id="label__pass_conf" class="hidden small warning-text">Passwords don't match up!</p>
+                        </div>
+                        <div class="g-recaptcha" data-sitekey="6LcipN0ZAAAAAJIN9RSb5Rk0oHZaWwnCyZg3-DmN"></div>
+                        <p id="label_recaptcha-error-signup" class="hidden small warning-text">Please complete
+                            captcha!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="signUp()">Sign Up</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js" type="application/javascript"></script>
+<script src="login.js" type="application/javascript"></script>
+</body>
+</html>

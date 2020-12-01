@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pitched</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css"/>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+
+
+</head>
+<body>
+
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="index.html">
+            <img src="img/Pitched.png" width="150px" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li id="nav_profile" class="nav-item hidden">
+                    <a class="nav-link" href="profile.html">Profile</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li id="nav_sign-in" class="nav-item">
+                    <a class="nav-link" href="login.html">Login</a>
+                </li>
+                <li id="nav_sign-out" class="nav-item hidden">
+                    <a class="nav-link" href="index.html">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+
+<div>
+    <div id="group-data-container">
+        <div class="center">
+            <div>
+                <input type="text" id="group-name-display" onchange="renameGroup(this.value)">
+                <ul id="group-user-display">
+                </ul>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label for="input_inviteEmail">Invite a new user to the group:</label>
+                    <input type="email" class="form-control" id="input_inviteEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="sendGroupInvite()">Send Invite</button>
+            </div>
+            &nbsp;
+            <div class="center">
+                <button class="btn_sign-in btn btn-success" data-toggle="modal" data-target="#modal_new-list">Create New List</button>
+            </div>
+        </div>
+    </div>
+
+    <h3 id="data-table1Header"></h3>
+    <table id="data-table1" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table2Header"></h3>
+    <table id="data-table2" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table3Header"></h3>
+    <table id="data-table3" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table4Header"></h3>
+    <table id="data-table4" class="display" width="100%"></table>
+    &nbsp;
+    <h3 id="data-table5Header"></h3>
+    <table id="data-table5" class="display" width="100%"></table>
+
+</div>
+
+<!-- New List modal -->
+<div id="modal_new-list" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="new_list">
+                        <div class="form-group">
+                            <label for="input_user-list-name">List Name</label>
+                            <input type="text" class="form-control" id="input_user-list-name" placeholder="List Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="createNewList()">Create!</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Item modal -->
+<div id="modal_add-item" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="new_item">
+                        <div class="form-group">
+                            <label for="input_user-item-name">Item Name</label>
+                            <input type="text" class="form-control" id="input_user-item-name" placeholder="Item name">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-quantity">Item Quantity</label>
+                            <input type="text" class="form-control" id="input_user-item-quantity" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-cost">Item Price</label>
+                            <input type="text" class="form-control" id="input_user-item-cost" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-description">Item Description</label>
+                            <input type="text" class="form-control" id="input_user-item-description" placeholder="Description">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_user-item-status">Bought (T/F)</label>
+                            <input type="text" class="form-control" id='input_user-item-status' placeholder="Status">
+                        </div>
+                        <div id="list-id" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="addNewItem()">Add!</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete List modal -->
+<div id="modal_delete_list" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="delete_list">
+                        <div class="modal-body" style="height: 75px">
+                            <p>Are you sure you wish to delete this list (data will be purged)?</p>
+                        </div>
+                        <div id="list-uuid" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="deleteList()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Change element -->
+<div id="modal_change-element" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="element-change-header" class="modal-header">
+                <div style="width: 90%;">
+                    <textarea id="element-change-name">Backpack</textarea>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="element-change-modal-body" class="modal-body">
+                <div style="margin-top: 10px; margin-bottom: 15px;">
+                    <p class="element-change-modal-label"><strong>In list:</strong></p>
+                    <a id="element-change-list-name">Hiking Trip List</a>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p class="element-change-modal-label"><strong>Assigned</strong></p>
+                    <button type="button" class="btn btn-outline-info btn-sm">Assign to myself</button>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p class="element-change-modal-label"><strong>Description</strong></p>
+                    <textarea id="element-change-description" oninput="expandTextarea(this)"></textarea>
+                    <button id="element-change-description-btn" type="button" class="btn btn-outline-info btn-sm">Save</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Done</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Change element -->
+<div id="modal_group-user" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div  class="modal-header">
+                <div>
+                    <h4 style="display: inline;">User Info</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p style="display: inline;">Name: </p>
+                    <p id="group-user-modal-name" style="display: inline;"></p>
+                </div>
+                <div>
+                    <p style="display: inline;">Email: </p>
+                    <p id="group-user-modal-email" style="display: inline;"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Item modal -->
+<div id="edit-item-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="edit_item">
+                        <div class="form-group">
+                            <label for="edit-item-name">Item Name</label>
+                            <input type="text" class="form-control" id="edit-item-name" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-quantity">Item Quantity</label>
+                            <input type="text" class="form-control" id="edit-item-quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-cost">Item Price</label>
+                            <input type="text" class="form-control" id="edit-item-cost">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-description">Item Description</label>
+                            <input type="text" class="form-control" id="edit-item-description" >
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-status">Item Status</label>
+                            <input type="text" class="form-control" id='edit-item-status' >
+                        </div>
+                    </div>
+                    <div id="edit-element-id" style="display: none;"> </div>
+                    <div id="edit-list-id" style="display: none;"> </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="editItem()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="script.js"></script>
+<script src="group.js"></script>
+</body>
+</html>
