@@ -1,6 +1,24 @@
 # Camping Trip Planner
 ## by Ryan O'Connor, Sebastian Tota, Shravanth Surapaneni, Marcus Anestad and Matthew Day 
 
+### Reference Links
+[Project Board](https://trello.com/b/uclUHtIM/camping-trip-planner)
+
+[GitHub Repo](https://github.com/SebTota/Camping-Trip-Planner-Backend)
+
+### User Features
+* Create account
+* Create new trips
+* Invite friends to your trip planners
+* Create multiple lists in each trip
+* Edit/delete items on list
+* Mobile friendly
+
+### Security Features
+* Hashing and encrypting user passwords
+* ReCaptcha for bot prevention
+* Protected endpoints using sessions, only allowing signed in users to access data
+
 ### Project Overview
 _The goal of the project is to create an application for camping/outdoor trips. The project
 functionality includes planning, responsibility sharing, and photo uploading. Users of the app
@@ -13,8 +31,6 @@ make comments on photos._
 _For a group of adventure seekers who are planning an outdoors activity together the Camping 
 Trip Planner is a web app that allows groups to plan a trip together in a more intuitive and seamless 
 way unlike Google Sheets which takes longer to create._
-
-### Features
 
 ### Personas
 
@@ -66,6 +82,12 @@ add people to share the list with so that they could also collaborate and use it
 he was able to add all the parents of the kids in his troop, and this way he has a way to keep track of everything and no longer
 has to rely on the kids to make sure they have everything they will need._
 
-### Project Board
+### Testing
+We focused mainly on manual testing for out application. We started with testing database functions in Python
+Then, we created API route that used the database function and we would manually check to make sure that the database was updating as we expected for each database function/api route.
 
-_https://trello.com/b/uclUHtIM/camping-trip-planner_
+The API routes were tested with Postman by calling certain routes and manually checking the database. Once we tested it with postman, we would integrate the endpoint with out website and continue manual checking of the database and results being shown. 
+
+To make teseting easier, we added code to the Python API web service that would check if we were running on localhost. If we were, that meant we were in testing mode and we could bypass the reCaptcha for authentication making testing a bit easier.
+
+![](postman.png)
