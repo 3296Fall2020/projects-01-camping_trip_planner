@@ -6,6 +6,8 @@ const groupUuid = urlParams.get('group-uuid');
 
 let listUuid;
 let listCount;
+let selectedItem;
+let elementUuid;
 
 if (getCookie('active') === 'true') {
     // Signed in
@@ -73,26 +75,11 @@ function expandTextarea(element) {
     element.style.height = element.scrollHeight + "px";
 }
 
-function changeUrlVar(param, newVal) {
-    let url = window.location.href;
-    const urlParams = window.location.href.split("?")[1].split("&");
-    for (let i = 0; i < urlParams.length; i++) {
-        console.log(urlParams[i]);
-        console.log(urlParams[i].split("=")[0]);
-        if (urlParams[i].split("=")[0] === param) {
-            console.log("Chaning");
-            url = url.replace(urlParams[i], urlParams[i].split("=")[0] + "=" + newVal);
-            location.href = url;
-        }
-    }
-}
-
 function renameGroup(newName) {
     createRequest('/renameGroup','POST', {
         'group-uuid': groupUuid,
         'new-name': newName
     }).then(ret => {
-        changeUrlVar('group-name', newName);
         console.log("Changed name");
         console.log(ret);
     })
@@ -102,15 +89,12 @@ addUserToGroupList();
 document.getElementById('group-name-display').value = groupName;
 
 async function newListPost(data) {
-    // Make POST request submitting new account
-    // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/createList?group-uuid=\' +groupUuid', {
         method: 'POST',
         credentials: 'include',
         redirect: 'follow',
         body: JSON.stringify(data)
     });
-    // Wait for response from server, then parse the body of the response in json format
     return await response.json();
 }
 
@@ -173,7 +157,7 @@ function createListItem(item) {
 
 //get the div id for the table we are currently rendering
 function getTableDivId(num){
-   switch(num) {
+    switch(num) {
         case num = 0:
             return "#data-table1"
         case num = 1:
@@ -190,15 +174,12 @@ function getTableDivId(num){
 //db add new item
 async function newItemPost(data) {
     console.log(data);
-    // Make POST request submitting new account
-    // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/addElementToList', {
         method: 'POST',
         credentials: 'include',
         redirect: 'follow',
         body: JSON.stringify(data)
     });
-    // Wait for response from server, then parse the body of the response in json format
     return await response.json();
 }
 
@@ -206,6 +187,7 @@ async function newItemPost(data) {
 function addNewItem(){
     newItemPost({
         'list-id' : document.getElementById('list-id').value,
+
         'element-name' : document.getElementById('input_user-item-name').value,
         'element-description' : document.getElementById('input_user-item-description').value,
         'element-quantity' : document.getElementById('input_user-item-quantity').value,
@@ -218,6 +200,9 @@ function addNewItem(){
         }
         else{
             $('#modal_new-item').modal('hide');
+            //let temp = [];
+            //temp.push(['element-name'],['element-quantity' ],['element_cost'], ['element-description'], ['element_status'],  ]);
+            //return temp;
             window.location.reload(true);
         }
     });
@@ -232,15 +217,12 @@ function addItemModal(listId){
 //db delete list
 async function deleteListPost(data) {
     console.log(data);
-    // Make POST request submitting new account
-    // Add CORS header to allow cross origin resource sharing
     const response = await fetch(serverAddress + '/deleteList', {
         method: 'POST',
         credentials: 'include',
         redirect: 'follow',
         body: JSON.stringify(data)
     });
-    // Wait for response from server, then parse the body of the response in json format
     return await response.json();
 }
 
@@ -258,12 +240,87 @@ function deleteList(){
     });
 }
 
+//db delete Item
+async function deleteItemPost() {
+    console.log("250 " + elementUuid);
+    const response = await fetch(serverAddress + '/deleteElementFromList?element-uuid=' +elementUuid, {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+//deleteItem
+function deleteItem(elementId){
+    deleteItemPost({
+        "element-uuid" : elementId
+    }).then(ret => {
+        if (ret['status'] === 400) {
+        }
+        else{
+        }
+    });
+}
+
+//db edit  item
+async function editItemPost(data) {
+    console.log(data);
+    const response = await fetch(serverAddress + '/addElementToList', {
+        method: 'POST',
+        credentials: 'include',
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+    // Wait for response from server, then parse the body of the response in json format
+    return await response.json();
+}
+
+//editing item
+function editItem(){
+    console.log(291);
+    newItemPost({
+        'list-id' : document.getElementById('edit-list-id').value,
+
+        'element-name' : document.getElementById("edit-item-name").value,
+        'element-description' : document.getElementById('edit-item-description').value,
+        'element-quantity' : document.getElementById("edit-item-quantity").value,
+        'element_cost': document.getElementById('edit-item-cost').value,
+        'element-user-id' : 100,
+        'element_status': document.getElementById('edit-item-status').value
+
+    }).then(ret => {
+        if (ret['status'] === 400) {
+        }
+        else{
+            deleteItem(selectedItem[5]);
+            window.location.reload(true);
+        }
+    });
+}
+
+
+
+//show modal to edit selected item
+function editItemModal(listId, elementId){
+    document.getElementById('edit-list-id').value = listId;
+
+    document.getElementById("edit-item-name").value = selectedItem[0];
+    document.getElementById("edit-item-quantity").value = selectedItem[1];
+    document.getElementById("edit-item-cost").value = selectedItem[2];
+    document.getElementById("edit-item-description").value = selectedItem[3];
+    document.getElementById("edit-item-status").value = selectedItem[4];
+
+    document.getElementById( "edit-element-id").value = selectedItem[5];
+    $("#edit-item-modal").modal('show');
+}
+
 //show modal to confirm list deletion
 function deleteListModal(listId){
     document.getElementById('list-uuid').value = listId;
     $('#modal_delete_list').modal('show');
 }
-
 
 //render a single table
 function renderTable(tableDivId, temp, listId, listUuid){
@@ -279,7 +336,7 @@ function renderTable(tableDivId, temp, listId, listUuid){
             let dataSet = [];
 
             for (let i = 0; i < elements.length; i++) {
-                dataSet.push([0, elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status'], '']);
+                dataSet.push([elements[i]['item-name'], elements[i]['item-quantity'], elements[i]['item-cost'], elements[i]['item-description'], elements[i]['item-status'], elements[i]["item-uuid"]]);
                 console.log(dataSet);
             }
 
@@ -289,51 +346,57 @@ function renderTable(tableDivId, temp, listId, listUuid){
 
             $(document).ready(function () {
 
-                $('#tableDivId').on('click', 'a.editor_remove', function (e) {
-                    e.preventDefault();
-
-                    editor.remove( $(this).closest('tr'), {
-                        title: 'Delete record',
-                        message: 'Are you sure you wish to remove this record?',
-                        buttons: 'Delete'
-                    } );
-                } );
-
                 $(tableDivId).DataTable({
                     data: dataSet,
+                    select: {
+                        style: 'single'
+                    },
                     'columnDefs': [{
-                        'targets': 0,
-                        "width": "20%",
-                        'searchable': false,
-                        'orderable': false,
-                        'className': 'dt-body-center',
-                        'render': function (data, type, full, meta) {
-                            return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                        },
                         order: [[1, 'asc']]
-
                     }],
                     columns: [
-                        {title: " ", width: '50px'},
                         {title: "Item Name", width: '120px'},
                         {title: "Quantity", width: '100px'},
                         {title: "Price", width: '100px'},
                         {title: "Description", width: '200px'},
-                        {title: "Status", width: '70px'},
-                        {title: "Action"}
+                        {title: "Bought (T/F)", width: '70px'},
+                        { "visible": false, "targets": 6 }
                     ],
-                   /* "initComplete": function(oSettings) {
-                        $(this).on('click', "i.fa.fa-minus-square", function(e) {
-                            table.row( $(this).closest('tr') ).remove().draw();
-                        });
-                    },*/
+                    /* "initComplete": function(oSettings) {
+                         $(this).on('click', "i.fa.fa-minus-square", function(e) {
+                             table.row( $(this).closest('tr') ).remove().draw();});},*/
                     dom: 'Bfrtip',
                     buttons: [
                         {
                             text: 'Add item',
                             action: function ( e, dt, node, config ) {
-                                //alert( 'Button activated' );
                                 addItemModal(listId);
+                            }
+                        },
+                        {
+                            text: 'Edit item',
+                            action: function ( e, dt, node, config ) {
+                                selectedItem = $.map(this.row('.selected').data(), function (item) {
+                                    console.log("Item " + item);
+                                    return item
+                                });
+                                elementUuid = selectedItem[5];
+                                if(this.rows( '.selected' ).any()) {
+                                    editItemModal(listId, selectedItem[5], this);
+                                    this.row('.selected').remove().draw(false);
+                                }
+                            }
+                        },
+                        {
+                            text: 'Delete item',
+                            action: function ( e, dt, node, config ) {
+                                selectedItem = $.map(this.row('.selected').data(), function (item) {
+                                    console.log("Item " + item);
+                                    return item
+                                });
+                                elementUuid = selectedItem[5];
+                                deleteItem(selectedItem[5]);
+                                this.row('.selected').remove().draw( false );
                             }
                         },
                         {
@@ -345,7 +408,6 @@ function renderTable(tableDivId, temp, listId, listUuid){
                         }
                     ]
                 });
-                //$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
             });
         }
     });
@@ -378,3 +440,4 @@ $( document ).ready(function() {
 
 
 });
+
